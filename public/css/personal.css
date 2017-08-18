@@ -1,0 +1,46 @@
+body{
+	padding-bottom: 0px;
+}
+
+.preview-box-big{
+	display: block;
+	width: 100%;
+	max-width: 200px;
+	margin: 10px auto;
+	position: relative;
+}
+
+.file-box{
+	display: block;
+	width: 30%;
+	height: 30px;
+	text-align: center;
+	font-size: 14px;
+	margin: 0px auto;
+	position: relative;
+}
+
+.h-file{
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	width: 100%;
+	height: 30px;
+	opacity: 0;
+}
+
+.cropper-container{
+	left: 0px !important;
+}
+
+.update-box{
+	margin-top: 30px;
+
+}
+.update-btn{
+	display: block;
+	width: 50%;
+	margin: 0px auto;
+}

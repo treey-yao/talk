@@ -1,0 +1,130 @@
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+}
+
+.blur {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	z-index: 10;
+	background: url(../img/super/super.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: top center;
+	-webkit-filter: blur(4px);
+	/* Chrome, Opera */
+	-moz-filter: blur(4px);
+	-ms-filter: blur(4px);
+	filter: blur(4px);
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
+}
+
+.logon-content-box {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	z-index: 20;
+}
+
+.sign-box {
+	display: block;
+	width: 100%;
+	position: absolute;
+	top: 25%;
+	left: 0px;
+}
+
+.wall-box {
+	display: block;
+	margin: 0px auto;
+}
+
+@media (min-width: 320px) {
+	.wall-box {
+		width: 200px;
+	}
+}
+
+@media (min-width: 768px) {
+	.wall-box {
+		width: 300px;
+	}
+}
+
+.login-tilte {
+	display: block;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	font-size: 20px;
+	color: #fff;
+	font-weight: 600;
+	letter-spacing: 5px;
+	margin-bottom: 20px;
+}
+
+.log-line {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.log-input {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+
+.log-input input:focus {
+	outline: none
+}
+
+.log-input input {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 5px;
+	overflow: hidden;
+	border: none;
+	box-shadow: none;
+	background: #143870;
+	opacity: 0.8;
+	color: #fff;
+	text-align: center;
+}
+
+.log-btn{
+	display: block;
+	width: 100%;
+	
+}
+
+.log-btn a{
+	display: block;
+	color: #0F2E6A;
+    cursor: pointer;
+    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #D4F5F5;
+    border-radius: 5px;
+    text-decoration:none ;
+}

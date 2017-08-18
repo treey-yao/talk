@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="/img/favicon/favicon.ico">
+
+		<title>登录--说说</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="/css/core/bootstrap.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/css/core/jumbotron.css" rel="stylesheet">
+		<link href="/css/login.css" rel="stylesheet">
+		<link href="/js/lib/toast/toast.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+		<!--背景-->
+		<div class="blur"></div>
+
+		<div class="logon-content-box">
+			<!--头部-->
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">个人说说</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+						<a class="navbar-brand" href="/">个人说说</a>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse">
+
+						<!--菜单-->
+						<ul class="nav navbar-nav">
+							<li >
+								<a href="/">首页 <span class="sr-only">(current)</span></a>
+							</li>
+							<li>
+								<a href="#">我的说说</a>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="active">
+								<a href="/login">登录</a>
+							</li>
+							<li>
+								<a href="/register">注册</a>
+							</li>
+						</ul>
+
+					</div>
+					<!--/.navbar-collapse -->
+				</div>
+			</nav>
+
+			<div class="sign-box ">
+
+				<div class="wall-box">
+					<div class="login-tilte">登录</div>
+					<div class="log-line">
+						<span class="log-input">
+							<input type="text" placeholder="User Name"  id="username"/>
+						</span>
+					</div>
+					<div class="log-line">
+						<span class="log-input">
+							<input type="password" placeholder="User Password" id="userpaw"/>
+						</span>
+					</div>
+					<div class="log-btn">
+						<a class="sj-login-btn">Login</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Bootstrap core JavaScript -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/jquery.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/lib/toast/toast.js"></script>
+
+		<script>
+			$(function() {
+				//**********前台验证*************
+				//-------全局变量-----
+
+				//确定按钮
+				var $sjloginbtn = $(".sj-login-btn");
+				//用户名
+				var $username= $("#username");
+				//密码
+				var $userpaw= $("#userpaw");
+				
+				
+				
+
+				$sjloginbtn.click(function() {
+					if($username.val()==""||null){
+						//提示错误
+						showtoast("请填写用户名！");
+					}else if($userpaw.val()==""||null){
+						showtoast("请填写密码！");
+					}else{
+						var returntext =loginajax($username.val(),$userpaw.val());
+						
+						if(returntext==110){
+							showtoast("系统错误！");
+						}else if(returntext==101){
+							showtoast("用户名不存在！");
+						}else if(returntext==102){
+							showtoast("密码错误！");
+						}else if(returntext==201){
+							showtoast("登录成功！三秒后将跳回到首页");
+							setTimeout(function(){
+								window.location="/";
+							},3000);	
+						}
+					}
+					
+					
+				})
+
+				
+				//----------------方法---------------
+				//显示错误信息
+				function showtoast(text) {
+					showMessage(text);
+				}
+
+				//-----------ajax----------
+				function loginajax(username, password) {
+					var i = "";
+					$.ajax({
+						type: "post",
+						url: "/doLogin",
+						async: false,
+						data: {
+							username: username,
+							password: password
+						},
+						dataType: "json",
+						success: function(result) {
+							console.log(result)
+							i = result;
+						}
+					});
+					return i;
+				}
+
+			});
+		</script>
+
+	</body>
+
+</html>

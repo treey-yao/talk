@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="/img/favicon/favicon.ico">
+
+		<title>注册--说说</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="/css/core/bootstrap.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/css/core/jumbotron.css" rel="stylesheet">
+
+		<link href="/css/register.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+		<!--头部-->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">个人说说</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+					<a class="navbar-brand" href="/">个人说说</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+
+					<!--菜单-->
+					<ul class="nav navbar-nav">
+						<li >
+							<a href="/">首页 <span class="sr-only">(current)</span></a>
+						</li>
+						<li>
+							<a href="#">我的说说</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="/login">登录</a>
+						</li>
+						<li class="active">
+							<a href="/register">注册</a>
+						</li>
+					</ul>
+
+				</div>
+				<!--/.navbar-collapse -->
+			</div>
+		</nav>
+
+		<div class="container s-content">
+			<div class="page-header">
+				<h1>欢迎注册 <small>Welcome to register</small></h1>
+			</div>
+			<!-- 内容 -->
+			<!-- Example row of columns -->
+			<div class="row col-lg-8">
+				<form class="form-box">
+					<div class="form-group">
+						<label for="username">请输入用户名</label>
+						<input type="text" class="form-control" id="username" placeholder="用户名">
+						<label class="s-prompt-box"> 请输入用户名, 可以是中文 ,但不能重复</label>
+					</div>
+					<div class="form-group">
+						<label for="password">请输入密码</label>
+						<input type="password" class="form-control" id="password" placeholder="密码">
+						<label class="s-prompt-box"> 请输入6-21字母和数字组成密码</label>
+					</div>
+
+					<div class="form-group">
+						<label for="password1">请确认密码</label>
+						<input type="password" class="form-control" id="password1" placeholder="密码">
+					</div>
+
+					<div class="checkbox">
+						<label>
+					      <input type="checkbox" id="sj-checkbox"> 我准守注册协议
+					    </label>
+					</div>
+
+					<div class="alert alert-danger " role="alert" id="sj-error">...</div>
+					<div class="alert alert-success " role="alert" id="sj-success">...</div>
+					<a class="btn btn-default btn-success disabled" id="sj-register-btn">注册</a>
+				</form>
+			</div>
+
+		</div>
+		<!-- /container -->
+		<hr>
+
+		<footer class="col-lg-12 text-center">
+			<p>&copy; 2017 Personal, Inc.</p>
+		</footer>
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/jquery.js"></script>
+		<script src="/js/bootstrap.js"></script>
+
+		<script>
+			$(function() {
+				//**********前台验证*************
+				//-------全局变量-----
+
+			
+				//错误提醒
+				var $error = $("#sj-error");
+				var $success = $("#sj-success");
+
+				//注册按钮
+				var $registerBtn = $("#sj-register-btn")
+
+				//正则表达式 ---6-21字母和数字组成密码
+				var regExp = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/;
+
+				//协议的确定
+				var $checkbox = $("#sj-checkbox");
+				$checkbox.change(function() {
+					if($(this).is(':checked')) {
+						$registerBtn.removeClass("disabled");
+					} else {
+						$registerBtn.addClass("disabled");
+					}
+				})
+
+				//注册按钮事件 ,用ajax提交表单
+				$registerBtn.on("click", function() {
+
+					//用户名
+					var $username = $("#username").val();
+					//密码
+					var $password = $("#password").val();
+					//确认密码
+					var $password1 = $("#password1").val();
+
+					//验证	
+					if($username == "" || null) {
+						errorShow("用户名不能为空");
+					} else if($password == "" || null) {
+						errorShow("密码不能为空");
+					} else if(!regExp.test($password)) {
+						errorShow("密码格式错误");
+					} else if($password1 == "" || null) {
+						errorShow("确认密码不能为空");
+					} else if($password != $password1) {
+						errorShow("两次密码不正确");
+					} else {
+
+						//	提交表单到后台
+						var returntext = addajax($username, $password);
+						//后台返回值  returntext ，  returntext：100之内是错误代码   200之内是正确代码
+
+						if(returntext == 101) {
+							errorShow("改用户名已被占用，请换个用户名");
+						} else if(returntext == 103) {
+							errorShow("服务器错误");
+						} else if(returntext == 104) {
+							errorShow("插入数据错误");
+						} else if(returntext == 200) {
+							successShow("恭喜 ！ 注册成功  三秒后将跳回到首页");
+						}
+					}
+
+				})
+
+				//修改时 隐藏错误提示
+				$("input").focus(function() {
+					$error.fadeOut();
+				});
+				//----------------方法---------------
+				//显示错误信息
+				function errorShow(text) {
+					$error.fadeIn().text(text);
+				}
+
+				//成功错误信息
+
+				function successShow(text) {
+					$error.fadeOut();
+					$success.fadeIn().text(text);
+					
+					setTimeout(function(){
+						window.location="/";
+					},3000)
+				}
+
+				//-----------ajax----------
+				function addajax(username, password) {
+					var i = "";
+					$.ajax({
+						type: "post",
+						url: "/doRegister",
+						async: false,
+						data: {
+							username: username,
+							password: password
+						},
+						dataType: "json",
+						success: function(result) {
+							console.log(result)
+							i = result;
+						}
+					});
+					return i;
+				}
+
+			});
+		</script>
+
+	</body>
+
+</html>

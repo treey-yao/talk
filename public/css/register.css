@@ -1,0 +1,22 @@
+.s-content{
+	/*margin-top:20px ;*/
+}
+.form-box{
+	/*margin-top:50px ;*/
+}
+
+.s-prompt-box{
+	display: block;
+	padding: 5px 0px;
+	font-size: 12px;
+	font-weight: 500;
+	color: #666;
+}
+
+
+.alert-danger{
+	display: none;
+}
+.alert-success{
+	display: none;
+}
