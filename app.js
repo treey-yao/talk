@@ -33,11 +33,14 @@ app.get("/login", router.showlogin);
 //-----------登录业务-------------
 app.post("/doLogin", router.doLogin);
 
-//-----------修改个人信息-------------//
+//-----------个人信息-------------//
 app.get("/personal", router.showPersonal);
 
+//-----------修改个人信息-------------//
+app.post("/doPersonal", router.doPersonal);
 
 
+app.use("/404",router.show404);
 
 app.listen(8085);
 

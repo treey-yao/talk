@@ -41,46 +41,49 @@ $(function() {
 	//点击修改
 	$sjupdatebtn.click(function() {
 
-		var $qqname = $("#qqname").val() || "";
-		var $phone = $("#phone").val() || "";
-		var $email = $("#email").val() || "";
+		var $qqname = $("#qqname").val() ;
+		var $phone = $("#phone").val();
+		var $email = $("#email").val();
 		var $sex = $("#sex").val;
-		var $file = $('#file').val || "";
+		var $file = $('#file').val||"";
+		
+		
 
 		//验证QQ号
-		if($qqname != "") {
-			if(!/^[1-9][0-9]{4,}/i.test($qqname)) {
-				showMessage("请输入正确的QQ号！");
-			}
+
+		if(!/^[1-9][0-9]{4,}/i.test($qqname)) {
+			showMessage("请输入正确的QQ号！");
 		}
 		//验证手机号
-		else if($phone != "") {
-			if(!/^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$/i.test($phone)) {
-				showMessage("请输入正确的手机号！");
-			}
+		else if(!/^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$/i.test($phone)) {
+			showMessage("请输入正确的手机号！");
 		}
 
 		//验证邮箱
-		else if($email != "") {
-			if(!/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i.test($email)) {
-				showMessage("请输入正确的邮箱");
-			}
+		else if(!/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i.test($email)) {
+			showMessage("请输入正确的邮箱");
+		
 		} else {
-			if($email != "") {
+			if($file != "") {
 				dataURL = $image.cropper("getDataURL", {
 					width: 200,
 					height: 200
 				});
 			}
+			
+			
+			
+			
 
-			var returntext = updateajax($qqname, $phone, $email, dataURL)
+			var returntext = updateajax($qqname, $phone, $email, $sex ,dataURL)
+
 
 			if(returntext == 110) {
-				showtoast("系统错误！");
+				showMessage("系统错误！");
 			} else if(returntext == 101) {
-				showtoast("提交失败！");
+				showMessage("提交失败！");
 			} else if(returntext == 201) {
-				showtoast("登录成功！三秒后将跳回到首页");
+				showMessage("修改成功！三秒后将跳回到首页");
 				setTimeout(function() {
 					window.location = "/";
 				}, 3000);
@@ -124,7 +127,7 @@ $(function() {
 	}
 
 	//-------------------ajax-------------
-	function loginajax(qqname, phone, email, dataURL) {
+	function updateajax(qqname, phone, email,sex, dataURL) {
 		var i = "";
 		$.ajax({
 			type: "post",
@@ -134,11 +137,12 @@ $(function() {
 				qqname: qqname,
 				phone: phone,
 				email:email,
+				sex:sex,
 				dataURL:dataURL
 			},
 			dataType: "json",
 			success: function(result) {
-				console.log(result)
+//				console.log(result)
 				i = result;
 			}
 		});

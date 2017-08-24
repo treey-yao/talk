@@ -24,7 +24,7 @@ exports.doRegister = function(req, res) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
-		console.log(username, password)
+
 
 		//查询当前用户是否重名
 		db.find("users", {
@@ -69,7 +69,6 @@ exports.doRegister = function(req, res) {
 
 }
 
-
 //登录----------页面-------------
 exports.showlogin = function(req, res, next) {
 	res.render("login");
@@ -83,8 +82,8 @@ exports.doLogin = function(req, res) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
-		console.log(username, password)
-		
+//		console.log(username, password)
+
 		//设置MD5 加密
 		password = md5(md5(password) + "treey");
 
@@ -94,7 +93,7 @@ exports.doLogin = function(req, res) {
 		}, function(err, result) {
 			if(err) {
 				// 查询出错  返回110
- 				res.send("110")
+				res.send("110")
 				return;
 			}
 			// 查该用户
@@ -104,23 +103,22 @@ exports.doLogin = function(req, res) {
 				return;
 			}
 			//判断该用户 密码是否正确
-			if(password==result[0].password){
-				
+			if(password == result[0].password) {
+
 				//写入session
 				req.session.login = "300";
 				req.session.username = username;
-				
+
 				//返回 201  告诉前台 登录成功
 				res.send("201")
 				return;
-			}else {
+			} else {
 				//返回 102  告诉前台 密码错误
 				res.send("102")
 				return;
 			}
-			
+
 		});
-		
 
 	});
 
@@ -128,10 +126,69 @@ exports.doLogin = function(req, res) {
 
 //个人信息----------页面-------------
 exports.showPersonal = function(req, res, next) {
-	res.render("personal",{
-		"username": req.session.login == 300 ? req.session.username : ""
-	});
+
+	var sessionlogin = req.session.login;
+	//获取是否登录
+	if(sessionlogin == 300) {
+		//如果登录--显示个人信息
+		res.render("personal", {
+			"username": req.session.login == 300 ? req.session.username : ""
+		});
+	} else {
+		//如果没有登录--调到登录页面
+		res.redirect("/login");
+	}
+
 }
 
+//个人信息业务
+exports.doPersonal = function(req, res) {
 
+	//得到前台 用户填写的东西
+	var form = new formidable.IncomingForm();
+	//获取当前用户的名字
+	//当前用户的名字是唯一
+	var username = req.session.username;
 
+	form.parse(req, function(err, fields, files) {
+
+		//得到表单之后做的事情
+		var qqname = fields.qqname;
+		var phone = fields.phone;
+		var email = fields.email;
+		var sex =fields.sex;
+		var dataURL = fields.dataURL;
+
+		//修改信息
+		db.updateMany("users",{"username" :username ,},{
+			$set:{ 'qqname':qqname , 'phone':phone, 'sex':sex, 'email':email},
+		},function(err, result) {
+			if(err) {
+				// 更新出错  返回110
+				res.send("110")
+				return;
+			}
+
+			if(result.length == 0) {
+				//修改失败
+				res.send("101");
+				return;
+			}else{
+				//修改成功
+				res.send("201");
+				return;
+			}
+			
+			
+			
+			
+		})
+
+	});
+
+}
+
+//-------------404--------------
+exports.show404 = function(req, res) {
+	res.render("404")
+}
