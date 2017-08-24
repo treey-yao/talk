@@ -158,6 +158,7 @@ exports.doPersonal = function(req, res) {
 		var email = fields.email;
 		var sex =fields.sex;
 		var dataURL = fields.dataURL;
+		
 
 		//修改信息
 		db.updateMany("users",{"username" :username ,},{
