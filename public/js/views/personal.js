@@ -44,11 +44,9 @@ $(function() {
 		var $qqname = $("#qqname").val() ;
 		var $phone = $("#phone").val();
 		var $email = $("#email").val();
-		var $sex = $("#sex").val;
-		var $file = $('#file').val||"";
+		var $sex = $("#sex").val();
+		var $file = $('#file').val()|| 1;
 		
-		
-
 		//验证QQ号
 
 		if(!/^[1-9][0-9]{4,}/i.test($qqname)) {
@@ -64,16 +62,17 @@ $(function() {
 			showMessage("请输入正确的邮箱");
 		
 		} else {
-			if($file != "") {
+			
+			if($file != 1) {
+				
 				dataURL = $image.cropper("getDataURL", {
-					width: 200,
-					height: 200
-				});
+			      width: 100,
+			      height: 100
+			    });
+			    
+			    console.log(dataURL)
+
 			}
-			
-			
-			
-			
 
 			var returntext = updateajax($qqname, $phone, $email, $sex ,dataURL)
 
@@ -84,9 +83,9 @@ $(function() {
 				showMessage("提交失败！");
 			} else if(returntext == 201) {
 				showMessage("修改成功！三秒后将跳回到首页");
-				setTimeout(function() {
-					window.location = "/";
-				}, 3000);
+//				setTimeout(function() {
+//					window.location = "/";
+//				}, 3000);
 			}
 		}
 		

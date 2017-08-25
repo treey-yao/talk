@@ -1,6 +1,10 @@
 var formidable = require("formidable");
 var db = require("../model/db.js");
 var md5 = require("../model/md5.js");
+var file = require("../model/file.js");
+
+var fs = require("fs");
+var path = require("path");
 
 //首页-----------页面
 exports.showIndex = function(req, res, next) {
@@ -24,7 +28,6 @@ exports.doRegister = function(req, res) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
-
 
 		//查询当前用户是否重名
 		db.find("users", {
@@ -82,7 +85,7 @@ exports.doLogin = function(req, res) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
-//		console.log(username, password)
+		//		console.log(username, password)
 
 		//设置MD5 加密
 		password = md5(md5(password) + "treey");
@@ -156,14 +159,60 @@ exports.doPersonal = function(req, res) {
 		var qqname = fields.qqname;
 		var phone = fields.phone;
 		var email = fields.email;
-		var sex =fields.sex;
+		var sex = fields.sex;
 		var dataURL = fields.dataURL;
-		
+
+		var headName = "";
+
+		//判读用户是否上传的头像  
+		if(dataURL != "" || null) {
+			//如果上传了头像就保存头像
+			//创建临时文件
+			file.addFile(dataURL, function(err, textname) {
+				if(err) {
+					// 创建临时文件错误  返回110
+					res.send("110")
+				}
+				//旧文件地址
+				var oldpath = path.normalize(__dirname + "/../tempup/" + textname + ".png");
+				//新文件地址+文件名
+				var newpath = path.normalize(__dirname + "/../avatar/user/" + textname + ".png");
+
+//				fs.rename(oldpath, newpath, function(err) {
+//
+//					if(err) {
+//						// 文件改名失败  返回111
+//						res.send("111");
+//						return;
+//					}
+//
+//					headName = newpath;
+//
+//					//删除临时文件
+//					//					fs.unlink(oldpath, function(err) {
+//					//						if(err) {
+//					//							console.log("删除失败！");
+//					//						}
+//					//					});
+//
+//				})
+//							
+
+			})
+		}
 
 		//修改信息
-		db.updateMany("users",{"username" :username ,},{
-			$set:{ 'qqname':qqname , 'phone':phone, 'sex':sex, 'email':email},
-		},function(err, result) {
+		db.updateMany("users", {
+			"username": username,
+		}, {
+			$set: {
+				'qqname': qqname,
+				'phone': phone,
+				'sex': sex,
+				'email': email,
+				'headName': headName
+			},
+		}, function(err, result) {
 			if(err) {
 				// 更新出错  返回110
 				res.send("110")
@@ -174,15 +223,12 @@ exports.doPersonal = function(req, res) {
 				//修改失败
 				res.send("101");
 				return;
-			}else{
+			} else {
 				//修改成功
 				res.send("201");
 				return;
 			}
-			
-			
-			
-			
+
 		})
 
 	});
