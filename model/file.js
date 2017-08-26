@@ -21,11 +21,12 @@ exports.addFile = function(datafile, callback) {
 	var textname=ttt + ran+"treey";
 	
 
+	 //过滤data:URL
+	var base64Data = datafile.replace(/^data:image\/\w+;base64,/, "");
+    var datafile = new Buffer(base64Data, 'base64');
 	
-	var datafiles = datafile.toString("base64")
 
-
-	fs.writeFile(uploadDir +textname+".png", datafiles, function(err) {
+	fs.writeFile(uploadDir +textname+".png", datafile, function(err) {
 		if(err) {
 			callback(err, null);
 			return;

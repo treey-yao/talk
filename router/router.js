@@ -178,25 +178,25 @@ exports.doPersonal = function(req, res) {
 				//新文件地址+文件名
 				var newpath = path.normalize(__dirname + "/../avatar/user/" + textname + ".png");
 
-//				fs.rename(oldpath, newpath, function(err) {
-//
-//					if(err) {
-//						// 文件改名失败  返回111
-//						res.send("111");
-//						return;
-//					}
-//
-//					headName = newpath;
-//
-//					//删除临时文件
-//					//					fs.unlink(oldpath, function(err) {
-//					//						if(err) {
-//					//							console.log("删除失败！");
-//					//						}
-//					//					});
-//
-//				})
-//							
+				fs.rename(oldpath, newpath, function(err) {
+
+					if(err) {
+						// 文件改名失败  返回111
+						res.send("111");
+						return;
+					}
+
+					headName = newpath;
+
+					//删除临时文件
+					//					fs.unlink(oldpath, function(err) {
+					//						if(err) {
+					//							console.log("删除失败！");
+					//						}
+					//					});
+
+				})
+							
 
 			})
 		}
