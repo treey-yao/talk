@@ -3,7 +3,6 @@ var db = require("../model/db.js");
 var md5 = require("../model/md5.js");
 var file = require("../model/file.js");
 
-var fs = require("fs");
 var path = require("path");
 
 //首页-----------页面
@@ -47,10 +46,14 @@ exports.doRegister = function(req, res) {
 
 			//设置MD5 加密
 			password = md5(md5(password) + "treey");
+			
+			var imgname = path.normalize(__dirname + "/../avatar/mr.png");
+			
 			//添加用户
 			db.insertOne("users", {
 				"username": username,
 				"password": password,
+				"headName":imgname,
 			}, function(err, result) {
 				if(err) {
 					// 插入数据错误
@@ -111,6 +114,7 @@ exports.doLogin = function(req, res) {
 				//写入session
 				req.session.login = "300";
 				req.session.username = username;
+				req.session.imgname = result[0].imgname;
 
 				//返回 201  告诉前台 登录成功
 				res.send("201")
@@ -152,6 +156,7 @@ exports.doPersonal = function(req, res) {
 	//获取当前用户的名字
 	//当前用户的名字是唯一
 	var username = req.session.username;
+	var imgname = req.session.username;
 
 	form.parse(req, function(err, fields, files) {
 
@@ -164,70 +169,52 @@ exports.doPersonal = function(req, res) {
 
 		var headName = "";
 
-		//判读用户是否上传的头像  
-		if(dataURL != "" || null) {
-			//如果上传了头像就保存头像
-			//创建临时文件
-			file.addFile(dataURL, function(err, textname) {
-				if(err) {
-					// 创建临时文件错误  返回110
-					res.send("110")
-				}
-				//旧文件地址
-				var oldpath = path.normalize(__dirname + "/../tempup/" + textname + ".png");
-				//新文件地址+文件名
-				var newpath = path.normalize(__dirname + "/../avatar/user/" + textname + ".png");
+		//如果上传了头像就保存头像
+		//创建临时文件
+		file.addFile(dataURL, function(err, textname) {
 
-				fs.rename(oldpath, newpath, function(err) {
-
-					if(err) {
-						// 文件改名失败  返回111
-						res.send("111");
-						return;
-					}
-
-					headName = newpath;
-
-					//删除临时文件
-					//					fs.unlink(oldpath, function(err) {
-					//						if(err) {
-					//							console.log("删除失败！");
-					//						}
-					//					});
-
-				})
-							
-
-			})
-		}
-
-		//修改信息
-		db.updateMany("users", {
-			"username": username,
-		}, {
-			$set: {
-				'qqname': qqname,
-				'phone': phone,
-				'sex': sex,
-				'email': email,
-				'headName': headName
-			},
-		}, function(err, result) {
 			if(err) {
-				// 更新出错  返回110
+				// 创建临时文件错误  返回110
 				res.send("110")
 				return;
 			}
-
-			if(result.length == 0) {
-				//修改失败
-				res.send("101");
-				return;
+			
+			//头像地址
+			if(textname == null) {
+				headName = imgname;
 			} else {
-				//修改成功
-				res.send("201");
-				return;
+				headName = textname;
 			}
+
+			//修改信息
+			db.updateMany("users", {
+				"username": username,
+			}, {
+				$set: {
+					'qqname': qqname,
+					'phone': phone,
+					'sex': sex,
+					'email': email,
+					'headName': headName
+				},
+			}, function(err, result) {
+				if(err) {
+					// 更新出错  返回110
+					res.send("110")
+					return;
+				}
+
+				if(result.length == 0) {
+					//修改失败
+					res.send("101");
+					return;
+				} else {
+					//修改成功
+					res.send("201");
+					return;
+				}
+
+			})
 
 		})
 

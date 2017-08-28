@@ -6,31 +6,33 @@ var sd = require('silly-datetime');
 
 //创建临时文件
 exports.addFile = function(datafile, callback) {
-	
-	
-	
-	//	tempup 临时缓存文件夹
-	var uploadDir = path.normalize(__dirname + "/../tempup/");
 
-	//文字名字
-	//当前时间戳
-	var ttt = sd.format(new Date(), 'YYYYMMDDHHmmss');
-	//随机数
-	var ran = parseInt(Math.random() * 8999 + 10000);
-	
-	var textname=ttt + ran+"treey";
-	
+	if(datafile != "" || null) {
+		var uploadDir = path.normalize(__dirname + "/../avatar/user/");
 
-	 //过滤data:URL
-	var base64Data = datafile.replace(/^data:image\/\w+;base64,/, "");
-    var datafile = new Buffer(base64Data, 'base64');
-	
+		//文字名字
+		//当前时间戳
+		var ttt = sd.format(new Date(), 'YYYYMMDDHHmmss');
+		//随机数
+		var ran = parseInt(Math.random() * 8999 + 10000);
+		//地址+图片名
+		var textname = uploadDir + ttt +ran+ "treey.jpg";
 
-	fs.writeFile(uploadDir +textname+".png", datafile, function(err) {
-		if(err) {
-			callback(err, null);
-			return;
-		}
-		callback(err, textname);
-	});
+		//过滤data:URL
+		var base64Data = datafile.replace(/^data:image\/\w+;base64,/, "");
+		var datafile = new Buffer(base64Data, 'base64');
+
+		fs.writeFile(textname, datafile, function(err) {
+			if(err) {
+				callback(err, null);
+				return;
+			}
+			callback(err, textname);
+		});
+
+	} else {
+		//当前台没有上传图片是的 返回null
+		callback(err, null);
+	}
+
 }

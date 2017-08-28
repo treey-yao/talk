@@ -66,8 +66,8 @@ $(function() {
 			if($file != 1) {
 				
 				dataURL = $image.cropper("getDataURL", {
-			      width: 100,
-			      height: 100
+			      width: 50,
+			      height: 50
 			    });
 			    
 			    console.log(dataURL)
@@ -83,9 +83,9 @@ $(function() {
 				showMessage("提交失败！");
 			} else if(returntext == 201) {
 				showMessage("修改成功！三秒后将跳回到首页");
-//				setTimeout(function() {
-//					window.location = "/";
-//				}, 3000);
+				setTimeout(function() {
+					window.location = "/";
+				}, 3000);
 			}
 		}
 		
