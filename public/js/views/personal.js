@@ -68,10 +68,7 @@ $(function() {
 				dataURL = $image.cropper("getDataURL", {
 			      width: 50,
 			      height: 50
-			    });
-			    
-			    console.log(dataURL)
-
+			   });
 			}
 
 			var returntext = updateajax($qqname, $phone, $email, $sex ,dataURL)

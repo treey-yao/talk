@@ -9,6 +9,9 @@ body{
 	margin: 10px auto;
 	position: relative;
 }
+.preview-box-big img{
+	width: 200px;
+}
 
 .file-box{
 	display: block;

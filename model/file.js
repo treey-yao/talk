@@ -16,13 +16,13 @@ exports.addFile = function(datafile, callback) {
 		//随机数
 		var ran = parseInt(Math.random() * 8999 + 10000);
 		//地址+图片名
-		var textname = uploadDir + ttt +ran+ "treey.jpg";
+		var textname = ttt + ran + "treey.jpg";
 
 		//过滤data:URL
 		var base64Data = datafile.replace(/^data:image\/\w+;base64,/, "");
 		var datafile = new Buffer(base64Data, 'base64');
 
-		fs.writeFile(textname, datafile, function(err) {
+		fs.writeFile(uploadDir + textname, datafile, function(err) {
 			if(err) {
 				callback(err, null);
 				return;

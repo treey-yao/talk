@@ -46,14 +46,14 @@ exports.doRegister = function(req, res) {
 
 			//设置MD5 加密
 			password = md5(md5(password) + "treey");
-			
+
 			var imgname = path.normalize(__dirname + "/../avatar/mr.png");
-			
+
 			//添加用户
 			db.insertOne("users", {
 				"username": username,
 				"password": password,
-				"headName":imgname,
+				"headName": imgname,
 			}, function(err, result) {
 				if(err) {
 					// 插入数据错误
@@ -134,13 +134,49 @@ exports.doLogin = function(req, res) {
 //个人信息----------页面-------------
 exports.showPersonal = function(req, res, next) {
 
+	//获取session
 	var sessionlogin = req.session.login;
+
+	var qqname = "";
+	var phone = "";
+	var email = "";
+	var sex = "";
+	var imgURL = "";
+
 	//获取是否登录
 	if(sessionlogin == 300) {
-		//如果登录--显示个人信息
-		res.render("personal", {
-			"username": req.session.login == 300 ? req.session.username : ""
-		});
+
+		//查询当前用户
+		db.find("users", {
+			"username": req.session.username
+		}, function(err, result) {
+			if(err) {
+				// 查询出错  返回110
+				res.send("110")
+				return;
+			};
+
+			if(result.length != 0) {
+				qqname = result[0].qqname;
+				phone = result[0].phone;
+				email = result[0].email;
+				sex = result[0].sex;
+				imgURL = result[0].headName;
+			}
+
+			//如果登录--显示个人信息
+			res.render("personal", {
+				"username": req.session.login == 300 ? req.session.username : "",
+				"imgaddress": imgURL,
+				"phone": phone,
+				"email": email,
+				"sex": sex,
+				"qqname": qqname,
+				
+			});
+
+		})
+
 	} else {
 		//如果没有登录--调到登录页面
 		res.redirect("/login");
@@ -170,7 +206,6 @@ exports.doPersonal = function(req, res) {
 		var headName = "";
 
 		//如果上传了头像就保存头像
-		//创建临时文件
 		file.addFile(dataURL, function(err, textname) {
 
 			if(err) {
@@ -178,12 +213,12 @@ exports.doPersonal = function(req, res) {
 				res.send("110")
 				return;
 			}
-			
+
 			//头像地址
 			if(textname == null) {
 				headName = imgname;
 			} else {
-				headName = textname;
+				headName = "/avatar/user/"+textname;
 			}
 
 			//修改信息
