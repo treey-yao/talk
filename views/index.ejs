@@ -10,12 +10,15 @@
 		<meta name="author" content="">
 		<link rel="icon" href="/img/favicon/favicon.ico">
 
-		<title>说说</title>
+		<title>百舌之声</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="/css/core/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="/css/core/jumbotron.css" rel="stylesheet">
+		<link href="/js/lib/toast/toast.css" rel="stylesheet">
+		<link href="/css/index.css" rel="stylesheet">
+		
 
 	</head>
 
@@ -25,12 +28,12 @@
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">个人说说</span>
+            <span class="sr-only">百舌之声</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-					<a class="navbar-brand" href="/">个人说说</a>
+					<a class="navbar-brand" href="/">百舌之声</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 
@@ -40,7 +43,7 @@
 							<a href="/">首页 <span class="sr-only">(current)</span></a>
 						</li>
 						<li>
-							<a href="#">我的说说</a>
+							<a href="#">我的百舌</a>
 						</li>
 					</ul>
 					<% 
@@ -57,16 +60,18 @@
 					<% 
 					} else{
 					%>
-					
+
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="">欢迎您 ！ <%=username%></a>
+							<a href="">欢迎您 ！
+								<%=username%>
+							</a>
 						</li>
 						<li>
 							<a href="personal">个人资料</a>
 						</li>
 					</ul>
-					
+
 					<% }%>
 
 				</div>
@@ -76,13 +81,42 @@
 
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
+
+			<%if(!login){%>
+
 			<div class="container">
-				<h1>Hello, world!</h1>
-				<p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+				<h1>你好, 欢迎来到<span class="text-primary">百舌</span>!</h1>
 				<p>
-					<a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a>
+					百舌！ 百舌之声，这是一个可以说出你们的心声的平台。在这里你可以说出你现在的心情，说出你对当前实事的看法，说出你日常。
+				</p>
+				<p>
+					<a class="btn btn-primary btn-lg" href="/login" >登录 &raquo;</a>
 				</p>
 			</div>
+
+			<% } else{%>
+
+			<div class="container">
+				<div class="col-md-2 headimg visible-md visible-lg">
+					<img src="/avatar/mr.png">
+					<a class="name-text">
+						<%=username%>
+					</a>
+				</div>
+				<p class="col-md-10">
+					<input type="text" id="yj-title-text" class="form-control" placeholder="我的标题"></input>
+				</p>
+				<p class="col-md-10">
+					<textarea class="form-control" id="yj-content-text" rows="3" placeholder="我的内容"></textarea>
+				</p>
+
+				<div class="col-md-10">
+					<a class="btn btn-primary" id="yj-publish-btn" >发表 </a>
+				</div>
+
+			</div>
+			<% }%>
+
 		</div>
 
 		<div class="container">
@@ -124,6 +158,9 @@
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="/js/jquery.js"></script>
 		<script src="/js/bootstrap.js"></script>
+		<script src="/js/lib/toast/toast.js"></script>
+		<script src="/js/views/index.js"></script>
+		
 	</body>
 
 </html>

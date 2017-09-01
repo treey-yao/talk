@@ -2,6 +2,8 @@ var formidable = require("formidable");
 var db = require("../model/db.js");
 var md5 = require("../model/md5.js");
 var file = require("../model/file.js");
+var fun = require("../model/fun.js");
+
 
 var path = require("path");
 
@@ -11,6 +13,39 @@ exports.showIndex = function(req, res, next) {
 		"login": req.session.login == 300 ? true : false,
 		"username": req.session.login == 300 ? req.session.username : ""
 	});
+}
+
+//提交说说
+exports.doPublish = function(req, res, next) {
+
+	//得到前台 用户填写的东西
+	var form = new formidable.IncomingForm();
+
+	form.parse(req, function(err, fields, files) {
+		//得到表单之后做的事情
+		var title = fields.title;
+		var content = fields.content;
+		//时间
+		var time =fun.getNowFormatDate();
+
+		//添加用户
+		db.insertOne("posts", {
+			"title": title,
+			"content": content,
+			"name": req.session.username,
+			"time": time,
+		}, function(err, result) {
+			if(err) {
+				// 插入数据错误
+				res.send("104")
+				return;
+			}
+			//返回 201  告诉前台  添加成功
+			res.send("201");
+
+		})
+	});
+
 }
 
 //注册----------页面-------------
@@ -172,7 +207,7 @@ exports.showPersonal = function(req, res, next) {
 				"email": email,
 				"sex": sex,
 				"qqname": qqname,
-				
+
 			});
 
 		})
@@ -218,7 +253,7 @@ exports.doPersonal = function(req, res) {
 			if(textname == null) {
 				headName = imgname;
 			} else {
-				headName = "/avatar/user/"+textname;
+				headName = "/avatar/user/" + textname;
 			}
 
 			//修改信息

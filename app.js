@@ -22,6 +22,10 @@ app.use("/avatar" ,express.static("./avatar"));
 //-----------首页-------------
 app.get("/", router.showIndex);
 
+//提交说说
+app.post("/doPublish", router.doPublish);
+
+
 //-----------注册-------------//
 app.get("/register", router.showRegister);
 //-----------注册业务-------------
