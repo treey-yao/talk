@@ -18,7 +18,6 @@
 		<link href="/css/core/jumbotron.css" rel="stylesheet">
 		<link href="/js/lib/toast/toast.css" rel="stylesheet">
 		<link href="/css/index.css" rel="stylesheet">
-		
 
 	</head>
 
@@ -90,7 +89,7 @@
 					百舌！ 百舌之声，这是一个可以说出你们的心声的平台。在这里你可以说出你现在的心情，说出你对当前实事的看法，说出你日常。
 				</p>
 				<p>
-					<a class="btn btn-primary btn-lg" href="/login" >登录 &raquo;</a>
+					<a class="btn btn-primary btn-lg" href="/login">登录 &raquo;</a>
 				</p>
 			</div>
 
@@ -103,15 +102,15 @@
 						<%=username%>
 					</a>
 				</div>
-				<p class="col-md-10">
+				<!--<p class="col-md-10">
 					<input type="text" id="yj-title-text" class="form-control" placeholder="我的标题"></input>
-				</p>
+				</p>-->
 				<p class="col-md-10">
-					<textarea class="form-control" id="yj-content-text" rows="3" placeholder="我的内容"></textarea>
+					<textarea class="form-control" id="yj-content-text" rows="4" placeholder="我的内容"></textarea>
 				</p>
 
 				<div class="col-md-10">
-					<a class="btn btn-primary" id="yj-publish-btn" >发表 </a>
+					<a class="btn btn-primary" id="yj-publish-btn">发表 </a>
 				</div>
 
 			</div>
@@ -121,34 +120,13 @@
 
 		<div class="container">
 			<!-- Example row of columns -->
-			<div class="row">
-				<div class="col-md-4">
-					<h2>Heading</h2>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-					<p>
-						<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
-					</p>
-				</div>
-				<div class="col-md-4">
-					<h2>Heading</h2>
-					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-					<p>
-						<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
-					</p>
-				</div>
-				<div class="col-md-4">
-					<h2>Heading</h2>
-					<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-					<p>
-						<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
-					</p>
-				</div>
+			<div class="row" id="yj-content">
 			</div>
 
 			<hr>
 
 			<footer>
-				<p>&copy; 2017 Personal, Inc.</p>
+				<p class="text-center">&copy; 2017 Personal, Inc.</p>
 			</footer>
 		</div>
 		<!-- /container -->
@@ -160,7 +138,7 @@
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/lib/toast/toast.js"></script>
 		<script src="/js/views/index.js"></script>
-		
+
 	</body>
 
 </html>

@@ -24,6 +24,10 @@ app.get("/", router.showIndex);
 
 //提交说说
 app.post("/doPublish", router.doPublish);
+//显示说说
+app.post("/doShowTongue", router.doShowTongue);
+
+
 
 
 //-----------注册-------------//

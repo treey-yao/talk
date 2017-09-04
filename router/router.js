@@ -4,7 +4,6 @@ var md5 = require("../model/md5.js");
 var file = require("../model/file.js");
 var fun = require("../model/fun.js");
 
-
 var path = require("path");
 
 //首页-----------页面
@@ -26,7 +25,7 @@ exports.doPublish = function(req, res, next) {
 		var title = fields.title;
 		var content = fields.content;
 		//时间
-		var time =fun.getNowFormatDate();
+		var time = fun.getNowFormatDate();
 
 		//添加用户
 		db.insertOne("posts", {
@@ -44,6 +43,40 @@ exports.doPublish = function(req, res, next) {
 			res.send("201");
 
 		})
+	});
+}
+
+exports.doShowTongue = function(req, res, next) {
+
+	//查询所有的说说
+	db.find("posts", {}, {"pageamount":0,"page":0,"sort":{"time":-1}},function(err, result) {
+		if(err) {
+			// 查询出错  返回110
+			res.send("110")
+			return;
+		}
+
+		var postsjson = result;
+
+		//查询说说 的用户
+		for(let i = 0; i < postsjson.length; i++) {
+			db.find("users", {
+				"username": postsjson[i].name,
+			}, function(err, result) {
+				if(err) {
+					// 查询用户错误 返回111
+					res.send("111");
+					return;
+				}
+				postsjson[i].img = result[0].headName;
+
+				if((i + 1) == postsjson.length) {
+					//返回数据
+					res.send(postsjson);
+				}
+			});
+		}
+
 	});
 
 }
