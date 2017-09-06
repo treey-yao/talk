@@ -9,15 +9,16 @@ $(function() {
 
 	if(showInde == 110) {
 		showMessage("嘿！系统错误！");
+	}else if(showInde == 201){
+		showMessage("嘿！没有人百舌！");
 	} else {
-
 		var htmls = "";
 		if(!(showInde == "" || null)) {
 			for(var i = 0; i < showInde.length; i++) {
-				htmls = htmls + '<div class="col-md-4 y-detail">' +
+				htmls = htmls + '<div class="col-md-3 y-detail">' +
 					'<div class="y-detail-box">' +
 					'<span class="y-detail-img ">' +
-					'<img src="' + showInde[i].img + '" class="img-circle"/>' +
+					'<img src="' + headimg(showInde[i].img) + '" class="img-circle"/>' +
 					'</span>' +
 					'<span class="y-detail-text">' +
 					'<a class="y-detail-name">' + showInde[i].name + '</a>' +
@@ -33,9 +34,7 @@ $(function() {
 
 			$yjcontent.append(htmls)
 
-		} else {
-			showMessage("嘿！没有人百舌！");
-		}
+		} 
 	}
 
 	//发表
@@ -59,7 +58,7 @@ $(function() {
 				showMessage("嘿！你成功提交了！");
 
 				//清空文本框
-				//				$titletext.val("");
+				//	$titletext.val("");
 				$contenttext.val("");
 			}
 		}
@@ -67,6 +66,17 @@ $(function() {
 	});
 
 	//--------------方法-------------
+	
+	//头像
+	//如果后台头像数据为空 设置默认头像
+	function headimg(imgsrc){
+		if(imgsrc==null){
+			var img ="/avatar/mr.png";
+			return img;
+		}else{
+			return imgsrc;
+		}
+	}
 
 	//类似微信微博时间显示
 	//dateStr=2017-05-10 15:00:00

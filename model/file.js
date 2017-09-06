@@ -32,7 +32,7 @@ exports.addFile = function(datafile, callback) {
 
 	} else {
 		//当前台没有上传图片是的 返回null
-		callback(err, null);
+		callback("", null);
 	}
 
 }

@@ -45,11 +45,17 @@ exports.doPublish = function(req, res, next) {
 		})
 	});
 }
-
+//显示说说
 exports.doShowTongue = function(req, res, next) {
 
 	//查询所有的说说
-	db.find("posts", {}, {"pageamount":0,"page":0,"sort":{"time":-1}},function(err, result) {
+	db.find("posts", {}, {
+		"pageamount": 0,
+		"page": 0,
+		"sort": {
+			"time": -1
+		}
+	}, function(err, result) {
 		if(err) {
 			// 查询出错  返回110
 			res.send("110")
@@ -57,24 +63,30 @@ exports.doShowTongue = function(req, res, next) {
 		}
 
 		var postsjson = result;
+		if(postsjson.length!=0) {
+			//查询说说 的用户
+			for(let i = 0; i < postsjson.length; i++) {
+				db.find("users", {
+					"username": postsjson[i].name,
+				}, function(err, result) {
+					if(err) {
+						// 查询用户错误 返回111
+						res.send("111");
+						return;
+					}
+					postsjson[i].img = result[0].headName;
 
-		//查询说说 的用户
-		for(let i = 0; i < postsjson.length; i++) {
-			db.find("users", {
-				"username": postsjson[i].name,
-			}, function(err, result) {
-				if(err) {
-					// 查询用户错误 返回111
-					res.send("111");
-					return;
-				}
-				postsjson[i].img = result[0].headName;
+					if((i + 1) == postsjson.length) {
+						//返回数据
+						res.send(postsjson);
+					}
+				});
+			}
 
-				if((i + 1) == postsjson.length) {
-					//返回数据
-					res.send(postsjson);
-				}
-			});
+		}else{
+			// 查询用户错误 返回111
+			res.send("201");
+			return;
 		}
 
 	});
@@ -115,7 +127,7 @@ exports.doRegister = function(req, res) {
 			//设置MD5 加密
 			password = md5(md5(password) + "treey");
 
-			var imgname = path.normalize(__dirname + "/../avatar/mr.png");
+			var imgname = path.normalize("/avatar/mr.png");
 
 			//添加用户
 			db.insertOne("users", {
@@ -283,7 +295,7 @@ exports.doPersonal = function(req, res) {
 			}
 
 			//头像地址
-			if(textname == null) {
+			if(textname == null||"") {
 				headName = imgname;
 			} else {
 				headName = "/avatar/user/" + textname;
