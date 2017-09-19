@@ -99,8 +99,8 @@ exports.updateMany = function (collectionName, json1, json2, callback) {
 //数据总集合
 exports.getAllCount = function (collectionName,callback) {
     _connectDB(function (err, db) {
-        db.collection(collectionName).count({}).then(function(count) {
-            callback(count);
+        db.collection(collectionName).count({}).then(function(results) {
+            callback(results);
             db.close();
         });
     })

@@ -7,7 +7,7 @@ var fun = require("../model/fun.js");
 var path = require("path");
 
 //首页-----------页面
-exports.showIndex = function(req, res, next) {
+exports.showIndex = function(req, res) {
 	res.render("index", {
 		"login": req.session.login == 300 ? true : false,
 		"username": req.session.login == 300 ? req.session.username : ""
@@ -15,7 +15,7 @@ exports.showIndex = function(req, res, next) {
 }
 
 //提交说说
-exports.doPublish = function(req, res, next) {
+exports.doPublish = function(req, res) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
@@ -46,12 +46,14 @@ exports.doPublish = function(req, res, next) {
 	});
 }
 //显示说说
-exports.doShowTongue = function(req, res, next) {
+exports.doShowTongue = function(req, res) {
+
+	var page = req.query.page;
 
 	//查询所有的说说
 	db.find("posts", {}, {
-		"pageamount": 0,
-		"page": 0,
+		"pageamount": 16,
+		"page": page,
 		"sort": {
 			"time": -1
 		}
@@ -63,7 +65,7 @@ exports.doShowTongue = function(req, res, next) {
 		}
 
 		var postsjson = result;
-		if(postsjson.length!=0) {
+		if(postsjson.length != 0) {
 			//查询说说 的用户
 			for(let i = 0; i < postsjson.length; i++) {
 				db.find("users", {
@@ -83,7 +85,7 @@ exports.doShowTongue = function(req, res, next) {
 				});
 			}
 
-		}else{
+		} else {
 			// 查询用户错误 返回111
 			res.send("201");
 			return;
@@ -91,6 +93,14 @@ exports.doShowTongue = function(req, res, next) {
 
 	});
 
+}
+
+//帖子总数
+exports.doTotal = function(req, res) {
+	db.getAllCount("posts", function(results) {
+		res.send(results.toString());
+		return;
+	});
 }
 
 //注册----------页面-------------
@@ -295,7 +305,7 @@ exports.doPersonal = function(req, res) {
 			}
 
 			//头像地址
-			if(textname == null||"") {
+			if(textname == null || "") {
 				headName = imgname;
 			} else {
 				headName = "/avatar/user/" + textname;

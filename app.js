@@ -25,7 +25,9 @@ app.get("/", router.showIndex);
 //提交说说
 app.post("/doPublish", router.doPublish);
 //显示说说
-app.post("/doShowTongue", router.doShowTongue);
+app.get("/doShowTongue", router.doShowTongue);
+//帖子总数
+app.post("/doTotal", router.doTotal);
 
 
 

@@ -18,7 +18,8 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-.y-detail{
+
+.y-detail {
 	display: block;
 	margin-bottom: 20px;
 }
@@ -64,27 +65,29 @@
 	width: 70%;
 }
 
-.y-detail-time{
+.y-detail-time {
 	margin-bottom: 2px;
 	color: #808080;
-    text-decoration: none;
+	text-decoration: none;
 }
 
-.y-detail-content{
-
+.y-detail-content {
 	line-height: 20px;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    padding: 1px 0 3px;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-    height: 60px;
-    
-    display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp: 3;
-overflow: hidden;
-    
+	overflow: hidden;
+	overflow-wrap: break-word;
+	padding: 1px 0 3px;
+	font-size: 14px;
+	color: #333;
+	margin-bottom: 5px;
+	height: 60px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
 
+.disabled a{
+	pointer-events: none;
+	color: #afafaf;
+	cursor: default
 }

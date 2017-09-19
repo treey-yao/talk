@@ -4,38 +4,25 @@ $(function() {
 	var $publishbtn = $("#yj-publish-btn");
 	var $yjcontent = $("#yj-content");
 
+	//当前页数
+	var queryname = 0;
+
+	//	帖子总数
+	var total = doTotal();
+
 	//显示说说
-	var showInde = showTongueAjax();
+	var showInde = showTongueAjax(queryname);
 
-	if(showInde == 110) {
-		showMessage("嘿！系统错误！");
-	}else if(showInde == 201){
-		showMessage("嘿！没有人百舌！");
-	} else {
-		var htmls = "";
-		if(!(showInde == "" || null)) {
-			for(var i = 0; i < showInde.length; i++) {
-				htmls = htmls + '<div class="col-md-3 y-detail">' +
-					'<div class="y-detail-box">' +
-					'<span class="y-detail-img ">' +
-					'<img src="' + headimg(showInde[i].img) + '" class="img-circle"/>' +
-					'</span>' +
-					'<span class="y-detail-text">' +
-					'<a class="y-detail-name">' + showInde[i].name + '</a>' +
-					'<small class="y-detail-time">' + getDateDiff(showInde[i].time) + '</small>' +
-					'</span>' +
-					'</div>' +
-					'<p class="y-detail-content">' + showInde[i].content + '</p>' +
-					'<p>' +
-					'	<a class="btn btn-default" href="#" role="button" id="' + showInde[i]._id + '">详情 &raquo;</a>' +
-					'</p>' +
-					'</div>'
-			}
+	//上一页按钮
+	var $yjpreviousbox = $("#yj-previous-box");
+	//下一页按钮
+	var $yjnextbox = $("#yj-next-box");
 
-			$yjcontent.append(htmls)
+	//页面第一加载时 显示帖子
+	showPost(showInde);
 
-		} 
-	}
+	//分页的显示  
+	showPaging();
 
 	//发表
 	$publishbtn.click(function() {
@@ -56,24 +43,42 @@ $(function() {
 
 			} else if(returntext == 201) {
 				showMessage("嘿！你成功提交了！");
-
 				//清空文本框
-				//	$titletext.val("");
+				//$titletext.val("");
 				$contenttext.val("");
 			}
 		}
 
 	});
 
+	//上一页
+	$yjpreviousbox.click(function() {
+		var pag = $(this).attr("name")
+		queryname = pag;
+		showInde = showTongueAjax(pag);
+		showPost(showInde);
+		showPaging();
+
+	});
+	//下一页
+	$yjnextbox.click(function() {
+		var pag = $(this).attr("name");
+		queryname = pag;
+		console.log(queryname)
+		showInde = showTongueAjax(pag);
+		showPost(showInde);
+		showPaging();
+	});
+
 	//--------------方法-------------
-	
+
 	//头像
 	//如果后台头像数据为空 设置默认头像
-	function headimg(imgsrc){
-		if(imgsrc==null){
-			var img ="/avatar/mr.png";
+	function headimg(imgsrc) {
+		if(imgsrc == null) {
+			var img = "/avatar/mr.png";
 			return img;
-		}else{
+		} else {
 			return imgsrc;
 		}
 	}
@@ -142,8 +147,64 @@ $(function() {
 		return Date.parse(dateStr.replace(/-/gi, "/"));
 	}
 
+	
+
+	//显示帖子
+	function showPost(showinfo) {
+		if(showinfo == 110) {
+			showMessage("嘿！系统错误！");
+		} else if(showinfo == 201) {
+			showMessage("嘿！没有人百舌！");
+		} else {
+			$yjcontent.html("");
+			var htmls = "";
+			if(!(showinfo == "" || null)) {
+				for(var i = 0; i < showinfo.length; i++) {
+					htmls = htmls + '<div class="col-md-3 y-detail">' +
+						'<div class="y-detail-box">' +
+						'<span class="y-detail-img ">' +
+						'<img src="' + headimg(showinfo[i].img) + '" class="img-circle"/>' +
+						'</span>' +
+						'<span class="y-detail-text">' +
+						'<a class="y-detail-name">' + showinfo[i].name + '</a>' +
+						'<small class="y-detail-time">' + getDateDiff(showinfo[i].time) + '</small>' +
+						'</span>' +
+						'</div>' +
+						'<p class="y-detail-content">' + showinfo[i].content + '</p>' +
+						'<p>' +
+						'	<a class="btn btn-default" href="#" role="button" id="' + showinfo[i]._id + '">详情 &raquo;</a>' +
+						'</p>' +
+						'</div>'
+				}
+				$yjcontent.append(htmls)
+			}
+		}
+	}
+
+	//分页显示
+	function showPaging() {
+
+		//总页数
+		var allpage = Math.ceil(parseInt(total) / 16);
+		if(queryname == 0) {
+			$yjpreviousbox.addClass("disabled");
+			$yjnextbox.removeClass("disabled");
+
+		} else if(queryname == allpage) {
+			$yjpreviousbox.removeClass("disabled");
+			$yjnextbox.addClass("disabled");
+		} else {
+			$yjpreviousbox.removeClass("disabled");
+			$yjnextbox.removeClass("disabled")
+		}
+
+		$yjpreviousbox.attr("name", parseInt(queryname) - 1);
+		$yjnextbox.attr("name", parseInt(queryname) + 1);
+
+	}
+
 	//-------------ajax-------------
-	//提交说说
+	//提交帖子
 	function addajax(titletext, contenttext) {
 		var i = "";
 		$.ajax({
@@ -161,12 +222,28 @@ $(function() {
 		});
 		return i;
 	}
+	//显示帖子
+	function showTongueAjax(page) {
+		var i = "";
+		$.ajax({
+			type: "get",
+			url: "/doShowTongue",
+			data: "page=" + page,
+			async: false,
+			dataType: "json",
+			success: function(result) {
+				i = result;
+			}
+		});
+		return i;
+	}
 
-	function showTongueAjax() {
+	//显示帖子总数
+	function doTotal() {
 		var i = "";
 		$.ajax({
 			type: "post",
-			url: "/doShowTongue",
+			url: "/doTotal",
 			async: false,
 			dataType: "json",
 			success: function(result) {
