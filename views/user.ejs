@@ -10,14 +10,14 @@
 		<meta name="author" content="">
 		<link rel="icon" href="/img/favicon/favicon.ico">
 
-		<title>百舌之声</title>
+		<title>**- 百舌之声</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="/css/core/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="/css/core/jumbotron.css" rel="stylesheet">
 		<link href="/js/lib/toast/toast.css" rel="stylesheet">
-		<link href="/css/index.css" rel="stylesheet">
+		<link href="/css/user.css" rel="stylesheet">
 
 	</head>
 
@@ -37,27 +37,13 @@
 
 					<!--菜单-->
 					<ul class="nav navbar-nav">
-						<li class="active">
+						<li>
 							<a href="/">首页 <span class="sr-only">(current)</span></a>
 						</li>
-						<li>
-							<a href="/user/梦魇">我的百舌</a>
+						<li class="active">
+							<a href="#">我的百舌</a>
 						</li>
 					</ul>
-					<% 
-						if(!login){	
-					%>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="/login">登录</a>
-						</li>
-						<li>
-							<a href="/register">注册</a>
-						</li>
-					</ul>
-					<% 
-					} else{
-					%>
 
 					<ul class="nav navbar-nav navbar-right">
 						<li>
@@ -70,8 +56,6 @@
 						</li>
 					</ul>
 
-					<% }%>
-
 				</div>
 				<!--/.navbar-collapse -->
 			</div>
@@ -80,57 +64,53 @@
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
 
-			<%if(!login){%>
-
-			<div class="container">
-				<h1>你好, 欢迎来到<span class="text-primary">百舌</span>!</h1>
-				<p>
-					百舌！ 百舌之声，这是一个可以说出你们的心声的平台。在这里你可以说出你现在的心情，说出你对当前实事的看法，说出你日常。
-				</p>
-				<p>
-					<a class="btn btn-primary btn-lg" href="/login">登录 &raquo;</a>
-				</p>
-			</div>
-
-			<% } else{%>
-
 			<div class="container">
 				<div class="col-md-2 headimg visible-md visible-lg">
-					<img src="/avatar/mr.png">
-					<a class="name-text">
-						<%=username%>
-					</a>
+					<img src="<%=imgname%>">
 				</div>
-				<!--<p class="col-md-10">
-					<input type="text" id="yj-title-text" class="form-control" placeholder="我的标题"></input>
-				</p>-->
-				<p class="col-md-10">
-					<textarea class="form-control" id="yj-content-text" rows="4" placeholder="我的内容"></textarea>
-				</p>
 
 				<div class="col-md-10">
-					<a class="btn btn-primary" id="yj-publish-btn">发表 </a>
+					<h2 class="name-title">
+						<span class="user-name"><%=username%></span>的个人主页
+					</h2>
+					<h4>Phone：132506000</h5>
+					<h4>QQ：949091796</h5>
 				</div>
 
 			</div>
-			<% }%>
 
 		</div>
 
 		<div class="container">
 			<!-- Example row of columns -->
 			<div class="row" id="yj-content">
+				
+				<div class="col-md-12 y-detail clearfix">
+					<div class="y-detail-box">
+						<span class="y-detail-img ">
+							<img src="\avatar\mr.png" class="img-circle">
+						</span>
+						<span class="y-detail-text">
+							<a class="y-detail-name">梦魇</a>
+							<small class="y-detail-time">4小时前</small>
+						</span>
+					</div>
+					<p class="y-detail-content">asdasd</p>
+					<p class="pull-right ">
+						<a class="btn btn-default" href="#" role="button" id="59c870ca3df0b325448fda9f">详情 »</a>
+					</p>
+				</div>
 			</div>
 
 			<!--分页-->
-			
+
 			<nav aria-label="...">
 				<ul class="pager">
 					<li class="previous " name="" id="yj-previous-box">
-						<a href="javascript:void(0)"  >&larr; 上一页</a>
+						<a href="javascript:void(0)">&larr; 上一页</a>
 					</li>
-					<li class="next"  name=""  id="yj-next-box">
-						<a href="javascript:void(0)" >下一页 &rarr;</a>
+					<li class="next" name="" id="yj-next-box">
+						<a href="javascript:void(0)">下一页 &rarr;</a>
 					</li>
 				</ul>
 			</nav>
@@ -149,7 +129,7 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/lib/toast/toast.js"></script>
-		<script src="/js/views/index.js"></script>
+		<script src="/js/views/user.js"></script>
 
 	</body>
 

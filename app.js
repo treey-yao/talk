@@ -32,25 +32,41 @@ app.post("/doTotal", router.doTotal);
 
 
 
-//-----------注册-------------//
+//-----------注册-------------
 app.get("/register", router.showRegister);
-//-----------注册业务-------------
+//注册业务
 app.post("/doRegister", router.doRegister);
 //-----------注册  end------------
 
-//-----------登录-------------//
+//-----------登录-------------
 app.get("/login", router.showlogin);
-//-----------登录业务-------------
+//登录业务
 app.post("/doLogin", router.doLogin);
 
-//-----------个人信息-------------//
+//-----------个人信息-------------
 app.get("/personal", router.showPersonal);
-
-//-----------修改个人信息-------------//
+//修改个人信息
 app.post("/doPersonal", router.doPersonal);
 
 
+//-----------个人主页-------------
+app.get("/user/:username", router.showUser);
+
+
+
+
+//-----------404-------------/
 app.use("/404",router.show404);
+
+
+
+
+
+
+
+
+
+
 
 app.listen(8085);
 

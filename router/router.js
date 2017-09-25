@@ -6,8 +6,8 @@ var fun = require("../model/fun.js");
 
 var path = require("path");
 
-//首页-----------页面
-exports.showIndex = function(req, res) {
+//-----------首页页面-----------
+exports.showIndex = function(req, res, next) {
 	res.render("index", {
 		"login": req.session.login == 300 ? true : false,
 		"username": req.session.login == 300 ? req.session.username : ""
@@ -15,7 +15,7 @@ exports.showIndex = function(req, res) {
 }
 
 //提交说说
-exports.doPublish = function(req, res) {
+exports.doPublish = function(req, res, next) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
@@ -46,7 +46,7 @@ exports.doPublish = function(req, res) {
 	});
 }
 //显示说说
-exports.doShowTongue = function(req, res) {
+exports.doShowTongue = function(req, res, next) {
 
 	var page = req.query.page;
 
@@ -96,20 +96,20 @@ exports.doShowTongue = function(req, res) {
 }
 
 //帖子总数
-exports.doTotal = function(req, res) {
+exports.doTotal = function(req, res, next) {
 	db.getAllCount("posts", function(results) {
 		res.send(results.toString());
 		return;
 	});
 }
 
-//注册----------页面-------------
+//----------注册页面-------------
 exports.showRegister = function(req, res, next) {
 	res.render("register");
 }
 
 //注册业务
-exports.doRegister = function(req, res) {
+exports.doRegister = function(req, res, next) {
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
@@ -165,12 +165,12 @@ exports.doRegister = function(req, res) {
 
 }
 
-//登录----------页面-------------
+//----------登录页面-------------
 exports.showlogin = function(req, res, next) {
 	res.render("login");
 }
 //登录业务
-exports.doLogin = function(req, res) {
+exports.doLogin = function(req, res, next) {
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
@@ -204,7 +204,7 @@ exports.doLogin = function(req, res) {
 				//写入session
 				req.session.login = "300";
 				req.session.username = username;
-				req.session.imgname = result[0].imgname;
+				req.session.imgname = result[0].headName;
 
 				//返回 201  告诉前台 登录成功
 				res.send("201")
@@ -221,7 +221,7 @@ exports.doLogin = function(req, res) {
 
 }
 
-//个人信息----------页面-------------
+//----------个人信息页面-------------
 exports.showPersonal = function(req, res, next) {
 
 	//获取session
@@ -275,14 +275,14 @@ exports.showPersonal = function(req, res, next) {
 }
 
 //个人信息业务
-exports.doPersonal = function(req, res) {
+exports.doPersonal = function(req, res, next) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 	//获取当前用户的名字
 	//当前用户的名字是唯一
 	var username = req.session.username;
-	var imgname = req.session.username;
+	var imgname = req.session.imgname;
 
 	form.parse(req, function(err, fields, files) {
 
@@ -346,6 +346,25 @@ exports.doPersonal = function(req, res) {
 	});
 
 }
+
+
+
+//----------个人信息页面-------------
+exports.showUser = function(req, res, next) {
+
+	res.render("user", {
+		"login": req.session.login == 300 ? true : false,
+		"username": req.session.login == 300 ? req.session.username : "",
+		"imgname":req.session.login == 300 ? req.session.imgname : "",
+	});
+	
+	console.log(req.session.imgname);
+};
+
+
+
+
+
 
 //-------------404--------------
 exports.show404 = function(req, res) {
