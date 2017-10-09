@@ -86,7 +86,7 @@ exports.doShowTongue = function(req, res, next) {
 			}
 
 		} else {
-			// 查询用户错误 返回111
+			// 没有数据
 			res.send("201");
 			return;
 		}
@@ -347,24 +347,65 @@ exports.doPersonal = function(req, res, next) {
 
 }
 
-
-
 //----------个人信息页面-------------
+
+//个人页面显示
 exports.showUser = function(req, res, next) {
 
-	res.render("user", {
-		"login": req.session.login == 300 ? true : false,
-		"username": req.session.login == 300 ? req.session.username : "",
-		"imgname":req.session.login == 300 ? req.session.imgname : "",
-	});
-	
-	console.log(req.session.imgname);
+	//获取当前点击的用户名的姓名
+	var username = req.params.username;
+
+	//查询点击的用户名的姓名
+	db.find("users", {
+		"username": username
+	}, function(err, result) {
+
+		res.render("user", {
+			"login": req.session.login == 300 ? true : false,
+			"sessionname": req.session.login == 300 ? req.session.username : "",
+			"username": result[0].username != "" ? result[0].username : "",
+			"imgname": result[0].headName != null ? result[0].headName : "",
+			"qqname": result[0].qqname != null ? result[0].qqname : "未填写",
+			"phone": result[0].phone != null ? result[0].phone : "未填写",
+		});
+
+	})
+
 };
 
+//个人页面全部帖子
+exports.doshowUserTongue = function(req, res, next) {
 
+	//得到表单之后做的事情
+	var page = req.query.page;
+	var name = req.query.name;
+	//查询所有的说说
+	db.find("posts", {
+		"name": name
+	}, {
+		"pageamount": 16,
+		"page": page,
+		"sort": {
+			"time": -1
+		}
+	}, function(err, result) {
+		if(err) {
+			// 查询出错  返回110
+			res.send("110")
+			return;
+		}
+		if(result.length != 0){
+			//返回数据
+			res.send(result);
+			
+		}else{
+			//没有数据
+			res.send("201");
+			return;
+		}
 
-
-
+	});
+}
 
 //-------------404--------------
 exports.show404 = function(req, res) {

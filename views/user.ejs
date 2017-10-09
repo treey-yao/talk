@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 		<link rel="icon" href="/img/favicon/favicon.ico">
 
-		<title>**- 百舌之声</title>
+		<title><%=username%>- 百舌之声</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="/css/core/bootstrap.css" rel="stylesheet">
@@ -41,14 +41,14 @@
 							<a href="/">首页 <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="active">
-							<a href="#">我的百舌</a>
+							<a href="/user/<%=username%>">我的百舌</a>
 						</li>
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
 						<li>
 							<a href="">欢迎您 ！
-								<%=username%>
+								<%=sessionname%>
 							</a>
 						</li>
 						<li>
@@ -66,15 +66,15 @@
 
 			<div class="container">
 				<div class="col-md-2 headimg visible-md visible-lg">
-					<img src="<%=imgname%>">
+					<img src="<%=imgname%>" id="yj-imgname">
 				</div>
 
 				<div class="col-md-10">
 					<h2 class="name-title">
-						<span class="user-name"><%=username%></span>的个人主页
+						<span class="user-name" id="yj-user-name"><%=username%></span>的个人主页
 					</h2>
-					<h4>Phone：132506000</h5>
-					<h4>QQ：949091796</h5>
+					<h4>Phone：<%=phone%></h5>
+					<h4>QQ：<%=qqname%></h5>
 				</div>
 
 			</div>
@@ -100,6 +100,7 @@
 						<a class="btn btn-default" href="#" role="button" id="59c870ca3df0b325448fda9f">详情 »</a>
 					</p>
 				</div>
+
 			</div>
 
 			<!--分页-->

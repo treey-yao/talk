@@ -51,7 +51,7 @@ app.post("/doPersonal", router.doPersonal);
 
 //-----------个人主页-------------
 app.get("/user/:username", router.showUser);
-
+app.get("/doshowUserTongue", router.doshowUserTongue);
 
 
 

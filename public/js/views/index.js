@@ -60,6 +60,7 @@ $(function() {
 		showPaging();
 
 	});
+	
 	//下一页
 	$yjnextbox.click(function() {
 		var pag = $(this).attr("name");
@@ -142,6 +143,9 @@ $(function() {
 			return Y + '-' + M + '-' + D + ' ' + H + ':' + m;
 		}
 	}
+
+
+
 
 	function getDateTimeStamp(dateStr) {
 		return Date.parse(dateStr.replace(/-/gi, "/"));
