@@ -13,6 +13,9 @@ $(function() {
 	var yjusername =$yjusername.text();
 	var yjimgname =$yjimgname.attr("src");
 	
+	//	帖子总数
+	var total = doTotal(yjusername);
+	
 	//上一页按钮
 	var $yjpreviousbox = $("#yj-previous-box");
 	//下一页按钮
@@ -23,16 +26,25 @@ $(function() {
 	var showInde = showUserTongue(queryname,yjusername);
 	//显示帖子
 	showPost(showInde);
-	
-	
+	//分页的显示  
+	showPaging();
 	
 	//上一页
 	$yjpreviousbox.click(function() {
 		var pag = $(this).attr("name")
 		queryname = pag;
 		//个人帖子数据
-		var showInde = showUserTongue(queryname,yjusername);
-		//显示帖子
+		showInde = showUserTongue(queryname,yjusername);
+		showPost(showInde);
+		showPaging();
+	});
+	
+	
+	//下一页
+	$yjnextbox.click(function() {
+		var pag = $(this).attr("name");
+		queryname = pag;
+		showInde = showUserTongue(queryname,yjusername);
 		showPost(showInde);
 		showPaging();
 	});
@@ -138,6 +150,35 @@ $(function() {
 	function getDateTimeStamp(dateStr) {
 		return Date.parse(dateStr.replace(/-/gi, "/"));
 	}
+	
+	
+	//分页显示
+	function showPaging() {
+
+		//总页数
+		var allpage = Math.ceil(parseInt(total) / 16);
+		
+		if(queryname == 0) {
+			$yjpreviousbox.addClass("disabled");
+			
+			if(allpage>1){
+				$yjnextbox.removeClass("disabled");
+			}else{
+				$yjnextbox.addClass("disabled");
+			}
+
+		} else if(queryname == allpage) {
+			$yjpreviousbox.removeClass("disabled");
+			$yjnextbox.addClass("disabled");
+		} else {
+			$yjpreviousbox.removeClass("disabled");
+			$yjnextbox.removeClass("disabled")
+		}
+
+		$yjpreviousbox.attr("name", parseInt(queryname) - 1);
+		$yjnextbox.attr("name", parseInt(queryname) + 1);
+
+	}
 
 	
 	
@@ -158,5 +199,21 @@ $(function() {
 		return i;
 	}
 	
-
+	
+	//显示帖子总数
+	function doTotal(name) {
+		var i = "";
+		$.ajax({
+			type: "get",
+			url: "/doUserTotal",
+			data: "name="+name,
+			async: false,
+			dataType: "json",
+			success: function(result) {
+				i = result;
+			}
+		});
+		return i;
+	}
+	
 })

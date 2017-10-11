@@ -355,21 +355,37 @@ exports.showUser = function(req, res, next) {
 	//获取当前点击的用户名的姓名
 	var username = req.params.username;
 
-	//查询点击的用户名的姓名
-	db.find("users", {
-		"username": username
-	}, function(err, result) {
+	//获取是否登录
+	if(req.session.login == 300) {
+		//查询点击的用户名的姓名
+		db.find("users", {
+			"username": username
+		}, function(err, result) {
 
-		res.render("user", {
-			"login": req.session.login == 300 ? true : false,
-			"sessionname": req.session.login == 300 ? req.session.username : "",
-			"username": result[0].username != "" ? result[0].username : "",
-			"imgname": result[0].headName != null ? result[0].headName : "",
-			"qqname": result[0].qqname != null ? result[0].qqname : "未填写",
-			"phone": result[0].phone != null ? result[0].phone : "未填写",
-		});
+			if(err) {
+				next();
+			}
+			// 查到该用户
+			if(result.length != 0) {
+				//该用户存在
+				res.render("user", {
+					"login": req.session.login == 300 ? true : false,
+					"sessionname": req.session.login == 300 ? req.session.username : "",
+					"username": result[0].username != "" ? result[0].username : "",
+					"imgname": result[0].headName != null ? result[0].headName : "",
+					"qqname": result[0].qqname != null ? result[0].qqname : "未填写",
+					"phone": result[0].phone != null ? result[0].phone : "未填写",
+				});
+			} else {
+				res.render("404");
+				return;
+			}
+		})
 
-	})
+	} else {
+		//如果没有登录--调到登录页面
+		res.redirect("/login");
+	}
 
 };
 
@@ -394,16 +410,29 @@ exports.doshowUserTongue = function(req, res, next) {
 			res.send("110")
 			return;
 		}
-		if(result.length != 0){
+		if(result.length != 0) {
 			//返回数据
 			res.send(result);
-			
-		}else{
+
+		} else {
 			//没有数据
 			res.send("201");
 			return;
 		}
 
+	});
+}
+
+exports.doUserTotal = function(req, res, next) {
+
+	var name = req.query.name;
+
+	db.getPartCount("posts", {
+		"name": name
+	}, function(results) {
+
+		res.send(results.toString());
+		return;
 	});
 }
 

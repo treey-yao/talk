@@ -51,12 +51,16 @@ app.post("/doPersonal", router.doPersonal);
 
 //-----------个人主页-------------
 app.get("/user/:username", router.showUser);
+//个人帖子
 app.get("/doshowUserTongue", router.doshowUserTongue);
-
+//个人帖子总数
+app.get("/doUserTotal", router.doUserTotal);
 
 
 //-----------404-------------/
 app.use("/404",router.show404);
+
+
 
 
 

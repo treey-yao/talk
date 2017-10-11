@@ -105,3 +105,15 @@ exports.getAllCount = function (collectionName,callback) {
         });
     })
 }
+
+//数据集合 ---条件
+exports.getPartCount = function (collectionName,json,callback) {
+    _connectDB(function (err, db) {
+        db.collection(collectionName).count(json).then(function(results) {
+            callback(results);
+            db.close();
+        });
+    })
+}
+
+
