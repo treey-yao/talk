@@ -423,8 +423,8 @@ exports.doshowUserTongue = function(req, res, next) {
 	});
 }
 
+//个人页面全部帖子总数
 exports.doUserTotal = function(req, res, next) {
-
 	var name = req.query.name;
 
 	db.getPartCount("posts", {
@@ -434,6 +434,22 @@ exports.doUserTotal = function(req, res, next) {
 		res.send(results.toString());
 		return;
 	});
+}
+
+//-----------评论-------------
+exports.showPost = function(req, res, next) {
+	//获取当前点击的用户名的姓名
+	var username = req.params.username;
+
+	res.render("post", {
+		"login": req.session.login == 300 ? true : false,
+		"sessionname": req.session.login == 300 ? req.session.username : "",
+		"username": req.session.login == 300 ? 1: "",
+		"imgname": req.session.login == 300 ? 1 : "",
+		"qqname": req.session.login == 300 ? 1 : "未填写",
+		"phone": req.session.login == 300 ? 1 : "未填写",
+	});
+
 }
 
 //-------------404--------------

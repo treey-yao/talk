@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="/img/favicon/favicon.ico">
+
+		<title><%=username%>- 百舌之声</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="/css/core/bootstrap.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/css/core/jumbotron.css" rel="stylesheet">
+		<link href="/js/lib/toast/toast.css" rel="stylesheet">
+		
+		<link href="/css/post.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">百舌之声</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+			<a class="navbar-brand" href="/">百舌之声</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+
+					<!--菜单-->
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="/">首页 <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="active">
+							<a href="/user/<%=sessionname%>">我的百舌</a>
+						</li>
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="">欢迎您 ！
+								<%=sessionname%>
+							</a>
+						</li>
+						<li>
+							<a href="personal">个人资料</a>
+						</li>
+					</ul>
+
+				</div>
+				<!--/.navbar-collapse -->
+			</div>
+		</nav>
+
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+
+			<div class="container">
+				<div class="col-md-2 headimg visible-md visible-lg">
+					<img src="/avatar/mr.png">
+					<a class="name-text">
+						<%=username%>
+					</a>
+				</div>
+
+				<p class="col-md-10">
+					aksogjdfj
+				</p>
+
+			</div>
+
+		</div>
+
+		<div class="container">
+			<!-- Example row of columns -->
+			<div class="row" id="yj-content">
+				
+				<div class="col-md-12 y-detail clearfix">
+					<div class="y-detail-box">
+						<span class="y-detail-img ">
+							<img src="\avatar\mr.png" class="img-circle">
+						</span>
+						<span class="y-detail-text">
+							<a class="y-detail-name">梦魇</a>
+							<small class="y-detail-time">4小时前</small>
+						</span>
+					</div>
+					<p class="y-detail-content">ssssss</p>
+				</div>
+
+			</div>
+
+			<!--分页-->
+			<nav aria-label="...">
+				<ul class="pager">
+					<li class="previous " name="" id="yj-previous-box">
+						<a href="javascript:void(0)">&larr; 上一页</a>
+					</li>
+					<li class="next" name="" id="yj-next-box">
+						<a href="javascript:void(0)">下一页 &rarr;</a>
+					</li>
+				</ul>
+			</nav>
+			
+			
+			<div class="">
+				<div>
+					<textarea></textarea>
+					
+					<p class="pull-right ">
+						<a class="btn btn-primary" href="#"  id="">提交</a>
+					</p>
+					
+				</div>
+			</div>
+			
+
+			<hr>
+
+			<footer>
+				<p class="text-center">&copy; 2017 Personal, Inc.</p>
+			</footer>
+		</div>
+		<!-- /container -->
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="/js/jquery.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/lib/toast/toast.js"></script>
+
+
+	</body>
+
+</html>

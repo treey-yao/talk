@@ -38,6 +38,8 @@ app.get("/register", router.showRegister);
 app.post("/doRegister", router.doRegister);
 //-----------注册  end------------
 
+
+
 //-----------登录-------------
 app.get("/login", router.showlogin);
 //登录业务
@@ -55,6 +57,10 @@ app.get("/user/:username", router.showUser);
 app.get("/doshowUserTongue", router.doshowUserTongue);
 //个人帖子总数
 app.get("/doUserTotal", router.doUserTotal);
+
+//-----------评论-------------
+app.get("/post/:username", router.showPost);
+
 
 
 //-----------404-------------/
