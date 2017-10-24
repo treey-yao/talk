@@ -439,15 +439,26 @@ exports.doUserTotal = function(req, res, next) {
 //-----------评论-------------
 exports.showPost = function(req, res, next) {
 	//获取当前点击的用户名的姓名
-	var username = req.params.username;
+	var postid = req.params.postid;
+	
+	db.find("posts", {
+		"ids": postid
+	}, function(err, result) {
+		
+		if(err) {
+			next();
+		}
 
-	res.render("post", {
-		"login": req.session.login == 300 ? true : false,
-		"sessionname": req.session.login == 300 ? req.session.username : "",
-		"username": req.session.login == 300 ? 1: "",
-		"imgname": req.session.login == 300 ? 1 : "",
-		"qqname": req.session.login == 300 ? 1 : "未填写",
-		"phone": req.session.login == 300 ? 1 : "未填写",
+		if(result.length != 0) {
+			res.render("post", {
+				"login": req.session.login == 300 ? true : false,
+				"sessionname": req.session.login == 300 ? req.session.username : "",
+				"username": result[0].name != "" ? result[0].name : "",
+				"time": result[0].time != "" ? result[0].time : "",
+				"content": result[0].content != "" ? result[0].content : "",
+			});
+		}
+
 	});
 
 }

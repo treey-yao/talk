@@ -78,7 +78,7 @@ $(function() {
 						'</div>' +
 						'<p class="y-detail-content">' + showinfo[i].content + '</p>' +
 						'<p class="pull-right ">' +
-						'	<a class="btn btn-default" href="#" role="button" id="' + showinfo[i]._id + '">详情 &raquo;</a>' +
+						'	<a class="btn btn-default" href="/post/' + showinfo[i].ids + '" role="button" id="' + showinfo[i].ids + '">详情 &raquo;</a>' +
 						'</p>' +
 						'</div>'
 				}

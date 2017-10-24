@@ -59,7 +59,7 @@ app.get("/doshowUserTongue", router.doshowUserTongue);
 app.get("/doUserTotal", router.doUserTotal);
 
 //-----------评论-------------
-app.get("/post/:username", router.showPost);
+app.get("/post/:postid", router.showPost);
 
 
 

@@ -10,14 +10,15 @@
 		<meta name="author" content="">
 		<link rel="icon" href="/img/favicon/favicon.ico">
 
-		<title><%=username%>- 百舌之声</title>
+		<title>
+			<%=username%>- 百舌之声</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="/css/core/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="/css/core/jumbotron.css" rel="stylesheet">
 		<link href="/js/lib/toast/toast.css" rel="stylesheet">
-		
+
 		<link href="/css/post.css" rel="stylesheet">
 
 	</head>
@@ -32,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-			<a class="navbar-brand" href="/">百舌之声</a>
+					<a class="navbar-brand" href="/">百舌之声</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 
@@ -73,8 +74,11 @@
 					</a>
 				</div>
 
+				<span class="col-md-10">
+					<%=time%>
+				</span>
 				<p class="col-md-10">
-					aksogjdfj
+					<%=content%>
 				</p>
 
 			</div>
@@ -84,7 +88,7 @@
 		<div class="container">
 			<!-- Example row of columns -->
 			<div class="row" id="yj-content">
-				
+
 				<div class="col-md-12 y-detail clearfix">
 					<div class="y-detail-box">
 						<span class="y-detail-img ">
@@ -111,22 +115,15 @@
 					</li>
 				</ul>
 			</nav>
-			
-			
-			<div class="">
-				<div>
-					<textarea></textarea>
-					
-					<p class="pull-right ">
-						<a class="btn btn-primary" href="#"  id="">提交</a>
-					</p>
-					
-				</div>
+
+			<div class="form-group clearfix ">
+				<label for="name">我的评论</label>
+				<textarea class="form-control" rows="3"></textarea>
+				<p class="pull-right submit-btn">
+					<a class="btn btn-primary" href="#" id="">提交</a>
+				</p>
 			</div>
-			
-
 			<hr>
-
 			<footer>
 				<p class="text-center">&copy; 2017 Personal, Inc.</p>
 			</footer>
@@ -139,7 +136,7 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/lib/toast/toast.js"></script>
-
+		<script src="/js/lib/toast/toast.js"></script>
 
 	</body>
 
