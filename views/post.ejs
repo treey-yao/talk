@@ -10,8 +10,7 @@
 		<meta name="author" content="">
 		<link rel="icon" href="/img/favicon/favicon.ico">
 
-		<title>
-			<%=username%>- 百舌之声</title>
+		<title><%=username%>- 百舌之声</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="/css/core/bootstrap.css" rel="stylesheet">
@@ -69,7 +68,7 @@
 			<div class="container">
 				<div class="col-md-2 headimg visible-md visible-lg">
 					<img src="/avatar/mr.png">
-					<a class="name-text">
+					<a class="name-text" >
 						<%=username%>
 					</a>
 				</div>
@@ -118,9 +117,9 @@
 
 			<div class="form-group clearfix ">
 				<label for="name">我的评论</label>
-				<textarea class="form-control" rows="3"></textarea>
+				<textarea class="form-control" rows="3" name="<%=userids%>" id="yj-post-comment"></textarea>
 				<p class="pull-right submit-btn">
-					<a class="btn btn-primary" href="#" id="">提交</a>
+					<a class="btn btn-primary"  id="yj-post-btn">提交</a>
 				</p>
 			</div>
 			<hr>
@@ -136,7 +135,7 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/lib/toast/toast.js"></script>
-		<script src="/js/lib/toast/toast.js"></script>
+		<script src="/js/views/post.js"></script>
 
 	</body>
 

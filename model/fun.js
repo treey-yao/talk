@@ -18,3 +18,11 @@ exports.getNowFormatDate = function() {
 		seperator2 + date.getSeconds();
 	return currentdate;
 }
+
+//帖子id，   时间戳加5位的随机数
+exports.postids = function() {
+	//当前时间戳
+	var timestamp = Date.parse(new Date());
+	var maths = (Math.floor(Math.random() * 99999)) + timestamp;
+	return maths;
+}

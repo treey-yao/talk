@@ -27,12 +27,13 @@ exports.doPublish = function(req, res, next) {
 		//时间
 		var time = fun.getNowFormatDate();
 
-		//添加用户
+		//添加帖子
 		db.insertOne("posts", {
 			"title": title,
 			"content": content,
 			"name": req.session.username,
 			"time": time,
+			"ids": fun.postids(),
 		}, function(err, result) {
 			if(err) {
 				// 插入数据错误
@@ -438,21 +439,21 @@ exports.doUserTotal = function(req, res, next) {
 
 //-----------评论-------------
 exports.showPost = function(req, res, next) {
-	//获取当前点击的用户名的姓名
+	//获取当前点击的用户名的id
 	var postid = req.params.postid;
-	
+
 	db.find("posts", {
 		"ids": postid
 	}, function(err, result) {
-		
+
 		if(err) {
 			next();
 		}
-
 		if(result.length != 0) {
 			res.render("post", {
 				"login": req.session.login == 300 ? true : false,
 				"sessionname": req.session.login == 300 ? req.session.username : "",
+				"userids": req.session.login == 300 ? postid : "",
 				"username": result[0].name != "" ? result[0].name : "",
 				"time": result[0].time != "" ? result[0].time : "",
 				"content": result[0].content != "" ? result[0].content : "",
@@ -460,6 +461,56 @@ exports.showPost = function(req, res, next) {
 		}
 
 	});
+
+}
+
+exports.doPostcomment = function(req, res, next) {
+
+	//得到前台 用户填写的东西
+	var form = new formidable.IncomingForm();
+	//获取当前用户的名字
+	//当前用户的名字是唯一
+	var username = req.session.username;
+	var imgname = req.session.imgname;
+
+	form.parse(req, function(err, fields, files) {
+
+		//得到表单之后做的事情
+		var content = fields.content;
+		var ids = fields.ids;
+
+
+		//修改信息
+		db.updateMany("posts", {
+			"ids": ids,
+		}, {
+			$push: {
+				'contents': {
+					"postname": username,
+					"postimgname": imgname,
+					"posttime": fun.getNowFormatDate(),
+					"postcontents": content,
+				}
+			},
+		}, function(err, result) {
+			if(err) {
+				// 更新出错  返回110
+				res.send("110")
+				return;
+			}
+
+			if(result.length == 0) {
+				//修改失败
+				res.send("101");
+				return;
+			} else {
+				//修改成功
+				res.send("201");
+				return;
+			}
+
+		})
+	})
 
 }
 

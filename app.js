@@ -60,6 +60,8 @@ app.get("/doUserTotal", router.doUserTotal);
 
 //-----------评论-------------
 app.get("/post/:postid", router.showPost);
+//提交评论
+app.post("/doPostcomment", router.doPostcomment);
 
 
 
