@@ -442,28 +442,35 @@ exports.showPost = function(req, res, next) {
 	//获取当前点击的用户名的id
 	var postid = req.params.postid;
 
-	db.find("posts", {
-		"ids": postid
-	}, function(err, result) {
+	//获取是否登录
+	if(req.session.login == 300) {
+		db.find("posts", {
+			"ids": postid
+		}, function(err, result) {
 
-		if(err) {
-			next();
-		}
-		if(result.length != 0) {
-			res.render("post", {
-				"login": req.session.login == 300 ? true : false,
-				"sessionname": req.session.login == 300 ? req.session.username : "",
-				"userids": req.session.login == 300 ? postid : "",
-				"username": result[0].name != "" ? result[0].name : "",
-				"time": result[0].time != "" ? result[0].time : "",
-				"content": result[0].content != "" ? result[0].content : "",
-			});
-		}
+			if(err) {
+				next();
+			}
+			if(result.length != 0) {
+				res.render("post", {
+					"login": req.session.login == 300 ? true : false,
+					"sessionname": req.session.login == 300 ? req.session.username : "",
+					"userids": req.session.login == 300 ? postid : "",
+					"username": result[0].name != "" ? result[0].name : "",
+					"time": result[0].time != "" ? result[0].time : "",
+					"content": result[0].content != "" ? result[0].content : "",
+				});
+			}
 
-	});
+		});
+
+	} else {
+		//如果没有登录--调到登录页面
+		res.redirect("/login");
+	}
 
 }
-
+//提交评论
 exports.doPostcomment = function(req, res, next) {
 
 	//得到前台 用户填写的东西
@@ -478,8 +485,6 @@ exports.doPostcomment = function(req, res, next) {
 		//得到表单之后做的事情
 		var content = fields.content;
 		var ids = fields.ids;
-
-
 		//修改信息
 		db.updateMany("posts", {
 			"ids": ids,
@@ -510,6 +515,37 @@ exports.doPostcomment = function(req, res, next) {
 			}
 
 		})
+	})
+
+}
+
+//评论数据
+exports.showComment = function(req, res, next) {
+	//得到前台 用户填写的东西
+	var form = new formidable.IncomingForm();
+
+	form.parse(req, function(err, fields, files) {
+		//得到表单之后做的事情
+		var postid = fields.ids;
+
+		db.find("posts", {
+			"ids": postid
+		}, function(err, result) {
+			if(err) {
+				next();
+			}
+
+			if(result.length != 0) {
+				//查询成功 返回查询数据
+				res.send(result[0].contents);
+				return;
+			} else {
+				//查询失败 返回101
+				res.send("110");
+				return;
+			}
+		});
+
 	})
 
 }

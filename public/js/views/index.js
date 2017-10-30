@@ -145,8 +145,6 @@ $(function() {
 	}
 
 
-
-
 	function getDateTimeStamp(dateStr) {
 		return Date.parse(dateStr.replace(/-/gi, "/"));
 	}
@@ -182,6 +180,7 @@ $(function() {
 				}
 				$yjcontent.append(htmls)
 			}
+		
 		}
 	}
 
