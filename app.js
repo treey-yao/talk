@@ -65,18 +65,16 @@ app.post("/showComment", router.showComment);
 //提交评论
 app.post("/doPostcomment", router.doPostcomment);
 
+//----------人员列表---------------
+app.get("/Memberlist", router.showMemberlist);
+//用户总数
+app.post("/doListTotal", router.doListTotal);
+//用户信息
+app.get("/doShowList", router.doShowList);
+
 
 //-----------404-------------/
 app.use("/404",router.show404);
-
-
-
-
-
-
-
-
-
 
 
 

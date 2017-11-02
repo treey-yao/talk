@@ -7,7 +7,7 @@ var fun = require("../model/fun.js");
 var path = require("path");
 
 //-----------首页页面-----------
-exports.showIndex = function(req, res, next) {
+exports.showIndex = function (req, res, next) {
 	res.render("index", {
 		"login": req.session.login == 300 ? true : false,
 		"username": req.session.login == 300 ? req.session.username : ""
@@ -15,12 +15,12 @@ exports.showIndex = function(req, res, next) {
 }
 
 //提交说说
-exports.doPublish = function(req, res, next) {
+exports.doPublish = function (req, res, next) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 		//得到表单之后做的事情
 		var title = fields.title;
 		var content = fields.content;
@@ -34,8 +34,8 @@ exports.doPublish = function(req, res, next) {
 			"name": req.session.username,
 			"time": time,
 			"ids": fun.postids(),
-		}, function(err, result) {
-			if(err) {
+		}, function (err, result) {
+			if (err) {
 				// 插入数据错误
 				res.send("104")
 				return;
@@ -47,7 +47,7 @@ exports.doPublish = function(req, res, next) {
 	});
 }
 //显示说说
-exports.doShowTongue = function(req, res, next) {
+exports.doShowTongue = function (req, res, next) {
 
 	var page = req.query.page;
 
@@ -58,28 +58,28 @@ exports.doShowTongue = function(req, res, next) {
 		"sort": {
 			"time": -1
 		}
-	}, function(err, result) {
-		if(err) {
+	}, function (err, result) {
+		if (err) {
 			// 查询出错  返回110
 			res.send("110")
 			return;
 		}
 
 		var postsjson = result;
-		if(postsjson.length != 0) {
+		if (postsjson.length != 0) {
 			//查询说说 的用户
-			for(let i = 0; i < postsjson.length; i++) {
+			for (let i = 0; i < postsjson.length; i++) {
 				db.find("users", {
 					"username": postsjson[i].name,
-				}, function(err, result) {
-					if(err) {
+				}, function (err, result) {
+					if (err) {
 						// 查询用户错误 返回111
 						res.send("111");
 						return;
 					}
 					postsjson[i].img = result[0].headName;
 
-					if((i + 1) == postsjson.length) {
+					if ((i + 1) == postsjson.length) {
 						//返回数据
 						res.send(postsjson);
 					}
@@ -97,24 +97,24 @@ exports.doShowTongue = function(req, res, next) {
 }
 
 //帖子总数
-exports.doTotal = function(req, res, next) {
-	db.getAllCount("posts", function(results) {
+exports.doTotal = function (req, res, next) {
+	db.getAllCount("posts", function (results) {
 		res.send(results.toString());
 		return;
 	});
 }
 
 //----------注册页面-------------
-exports.showRegister = function(req, res, next) {
+exports.showRegister = function (req, res, next) {
 	res.render("register");
 }
 
 //注册业务
-exports.doRegister = function(req, res, next) {
+exports.doRegister = function (req, res, next) {
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
@@ -122,14 +122,14 @@ exports.doRegister = function(req, res, next) {
 		//查询当前用户是否重名
 		db.find("users", {
 			"username": username
-		}, function(err, result) {
-			if(err) {
+		}, function (err, result) {
+			if (err) {
 				// 查询出错
 				res.send("103")
 				return;
 			}
 			// 查到该用户
-			if(result.length != 0) {
+			if (result.length != 0) {
 				//返回 101  告诉前台 该用户名已被占用
 				res.send("101")
 				return;
@@ -145,8 +145,8 @@ exports.doRegister = function(req, res, next) {
 				"username": username,
 				"password": password,
 				"headName": imgname,
-			}, function(err, result) {
-				if(err) {
+			}, function (err, result) {
+				if (err) {
 					// 插入数据错误
 					res.send("104")
 					return;
@@ -167,15 +167,15 @@ exports.doRegister = function(req, res, next) {
 }
 
 //----------登录页面-------------
-exports.showlogin = function(req, res, next) {
+exports.showlogin = function (req, res, next) {
 	res.render("login");
 }
 //登录业务
-exports.doLogin = function(req, res, next) {
+exports.doLogin = function (req, res, next) {
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 		//得到表单之后做的事情
 		var username = fields.username;
 		var password = fields.password;
@@ -187,20 +187,20 @@ exports.doLogin = function(req, res, next) {
 		//查询当前用户是否存在
 		db.find("users", {
 			"username": username
-		}, function(err, result) {
-			if(err) {
+		}, function (err, result) {
+			if (err) {
 				// 查询出错  返回110
 				res.send("110")
 				return;
 			}
 			// 查该用户
-			if(result.length == 0) {
+			if (result.length == 0) {
 				//返回 101  告诉前台 该用户名不存在
 				res.send("101")
 				return;
 			}
 			//判断该用户 密码是否正确
-			if(password == result[0].password) {
+			if (password == result[0].password) {
 
 				//写入session
 				req.session.login = "300";
@@ -223,7 +223,7 @@ exports.doLogin = function(req, res, next) {
 }
 
 //----------个人信息页面-------------
-exports.showPersonal = function(req, res, next) {
+exports.showPersonal = function (req, res, next) {
 
 	//获取session
 	var sessionlogin = req.session.login;
@@ -235,19 +235,19 @@ exports.showPersonal = function(req, res, next) {
 	var imgURL = "";
 
 	//获取是否登录
-	if(sessionlogin == 300) {
+	if (sessionlogin == 300) {
 
 		//查询当前用户
 		db.find("users", {
 			"username": req.session.username
-		}, function(err, result) {
-			if(err) {
+		}, function (err, result) {
+			if (err) {
 				// 查询出错  返回110
 				res.send("110")
 				return;
 			};
 
-			if(result.length != 0) {
+			if (result.length != 0) {
 				qqname = result[0].qqname;
 				phone = result[0].phone;
 				email = result[0].email;
@@ -276,7 +276,7 @@ exports.showPersonal = function(req, res, next) {
 }
 
 //个人信息业务
-exports.doPersonal = function(req, res, next) {
+exports.doPersonal = function (req, res, next) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
@@ -285,7 +285,7 @@ exports.doPersonal = function(req, res, next) {
 	var username = req.session.username;
 	var imgname = req.session.imgname;
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 
 		//得到表单之后做的事情
 		var qqname = fields.qqname;
@@ -297,16 +297,16 @@ exports.doPersonal = function(req, res, next) {
 		var headName = "";
 
 		//如果上传了头像就保存头像
-		file.addFile(dataURL, function(err, textname) {
+		file.addFile(dataURL, function (err, textname) {
 
-			if(err) {
+			if (err) {
 				// 创建临时文件错误  返回110
 				res.send("110")
 				return;
 			}
 
 			//头像地址
-			if(textname == null || "") {
+			if (textname == null || "") {
 				headName = imgname;
 			} else {
 				headName = "/avatar/user/" + textname;
@@ -316,31 +316,31 @@ exports.doPersonal = function(req, res, next) {
 			db.updateMany("users", {
 				"username": username,
 			}, {
-				$set: {
-					'qqname': qqname,
-					'phone': phone,
-					'sex': sex,
-					'email': email,
-					'headName': headName
-				},
-			}, function(err, result) {
-				if(err) {
-					// 更新出错  返回110
-					res.send("110")
-					return;
-				}
+					$set: {
+						'qqname': qqname,
+						'phone': phone,
+						'sex': sex,
+						'email': email,
+						'headName': headName
+					},
+				}, function (err, result) {
+					if (err) {
+						// 更新出错  返回110
+						res.send("110")
+						return;
+					}
 
-				if(result.length == 0) {
-					//修改失败
-					res.send("101");
-					return;
-				} else {
-					//修改成功
-					res.send("201");
-					return;
-				}
+					if (result.length == 0) {
+						//修改失败
+						res.send("101");
+						return;
+					} else {
+						//修改成功
+						res.send("201");
+						return;
+					}
 
-			})
+				})
 
 		})
 
@@ -351,23 +351,23 @@ exports.doPersonal = function(req, res, next) {
 //----------个人信息页面-------------
 
 //个人页面显示
-exports.showUser = function(req, res, next) {
+exports.showUser = function (req, res, next) {
 
 	//获取当前点击的用户名的姓名
 	var username = req.params.username;
 
 	//获取是否登录
-	if(req.session.login == 300) {
+	if (req.session.login == 300) {
 		//查询点击的用户名的姓名
 		db.find("users", {
 			"username": username
-		}, function(err, result) {
+		}, function (err, result) {
 
-			if(err) {
+			if (err) {
 				next();
 			}
 			// 查到该用户
-			if(result.length != 0) {
+			if (result.length != 0) {
 				//该用户存在
 				res.render("user", {
 					"login": req.session.login == 300 ? true : false,
@@ -391,7 +391,7 @@ exports.showUser = function(req, res, next) {
 };
 
 //个人页面全部帖子
-exports.doshowUserTongue = function(req, res, next) {
+exports.doshowUserTongue = function (req, res, next) {
 
 	//得到表单之后做的事情
 	var page = req.query.page;
@@ -400,37 +400,37 @@ exports.doshowUserTongue = function(req, res, next) {
 	db.find("posts", {
 		"name": name
 	}, {
-		"pageamount": 16,
-		"page": page,
-		"sort": {
-			"time": -1
-		}
-	}, function(err, result) {
-		if(err) {
-			// 查询出错  返回110
-			res.send("110")
-			return;
-		}
-		if(result.length != 0) {
-			//返回数据
-			res.send(result);
+			"pageamount": 16,
+			"page": page,
+			"sort": {
+				"time": -1
+			}
+		}, function (err, result) {
+			if (err) {
+				// 查询出错  返回110
+				res.send("110")
+				return;
+			}
+			if (result.length != 0) {
+				//返回数据
+				res.send(result);
 
-		} else {
-			//没有数据
-			res.send("201");
-			return;
-		}
+			} else {
+				//没有数据
+				res.send("201");
+				return;
+			}
 
-	});
+		});
 }
 
 //个人页面全部帖子总数
-exports.doUserTotal = function(req, res, next) {
+exports.doUserTotal = function (req, res, next) {
 	var name = req.query.name;
 
 	db.getPartCount("posts", {
 		"name": name
-	}, function(results) {
+	}, function (results) {
 
 		res.send(results.toString());
 		return;
@@ -438,20 +438,20 @@ exports.doUserTotal = function(req, res, next) {
 }
 
 //-----------评论-------------
-exports.showPost = function(req, res, next) {
+exports.showPost = function (req, res, next) {
 	//获取当前点击的用户名的id
 	var postid = req.params.postid;
 
 	//获取是否登录
-	if(req.session.login == 300) {
+	if (req.session.login == 300) {
 		db.find("posts", {
 			"ids": postid
-		}, function(err, result) {
+		}, function (err, result) {
 
-			if(err) {
+			if (err) {
 				next();
 			}
-			if(result.length != 0) {
+			if (result.length != 0) {
 				res.render("post", {
 					"login": req.session.login == 300 ? true : false,
 					"sessionname": req.session.login == 300 ? req.session.username : "",
@@ -471,7 +471,7 @@ exports.showPost = function(req, res, next) {
 
 }
 //提交评论
-exports.doPostcomment = function(req, res, next) {
+exports.doPostcomment = function (req, res, next) {
 
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
@@ -480,7 +480,7 @@ exports.doPostcomment = function(req, res, next) {
 	var username = req.session.username;
 	var imgname = req.session.imgname;
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 
 		//得到表单之后做的事情
 		var content = fields.content;
@@ -489,53 +489,53 @@ exports.doPostcomment = function(req, res, next) {
 		db.updateMany("posts", {
 			"ids": ids,
 		}, {
-			$push: {
-				'contents': {
-					"postname": username,
-					"postimgname": imgname,
-					"posttime": fun.getNowFormatDate(),
-					"postcontents": content,
+				$push: {
+					'contents': {
+						"postname": username,
+						"postimgname": imgname,
+						"posttime": fun.getNowFormatDate(),
+						"postcontents": content,
+					}
+				},
+			}, function (err, result) {
+				if (err) {
+					// 更新出错  返回110
+					res.send("110")
+					return;
 				}
-			},
-		}, function(err, result) {
-			if(err) {
-				// 更新出错  返回110
-				res.send("110")
-				return;
-			}
 
-			if(result.length == 0) {
-				//修改失败
-				res.send("101");
-				return;
-			} else {
-				//修改成功
-				res.send("201");
-				return;
-			}
+				if (result.length == 0) {
+					//修改失败
+					res.send("101");
+					return;
+				} else {
+					//修改成功
+					res.send("201");
+					return;
+				}
 
-		})
+			})
 	})
 
 }
 
 //评论数据
-exports.showComment = function(req, res, next) {
+exports.showComment = function (req, res, next) {
 	//得到前台 用户填写的东西
 	var form = new formidable.IncomingForm();
 
-	form.parse(req, function(err, fields, files) {
+	form.parse(req, function (err, fields, files) {
 		//得到表单之后做的事情
 		var postid = fields.ids;
 
 		db.find("posts", {
 			"ids": postid
-		}, function(err, result) {
-			if(err) {
+		}, function (err, result) {
+			if (err) {
 				next();
 			}
 
-			if(result.length != 0) {
+			if (result.length != 0) {
 				//查询成功 返回查询数据
 				res.send(result[0].contents);
 				return;
@@ -550,7 +550,67 @@ exports.showComment = function(req, res, next) {
 
 }
 
+
+
+//-------------成员列表显示-------------------
+exports.showMemberlist = function (req, res, next) {
+	//获取是否登录
+	if (req.session.login == 300) {
+
+		res.render("memberlist", {
+			"login": req.session.login == 300 ? true : false,
+			"username": req.session.login == 300 ? req.session.username : ""
+		});
+	} else {
+		//如果没有登录--调到登录页面
+		res.redirect("/login");
+	}
+
+
+}
+
+
+//用户信息用户总数
+exports.doListTotal = function (req, res, next) {
+	db.getAllCount("users", function (results) {
+		res.send(results.toString());
+		return;
+	});
+}
+
+//所有用户信息
+exports.doShowList = function (req, res, next) {
+	var page = req.query.page;
+
+	//查询所有的说说
+	db.find("users", {}, {
+		"pageamount": 16,
+		"page": page,
+		"sort": {
+			"time": -1
+		}
+	}, function (err, result) {
+		if (err) {
+			// 查询出错  返回110
+			res.send("110")
+			return;
+		}
+		if (result.length != 0) {
+			//返回数据
+			res.send(result);
+			return;
+		} else {
+			// 没有数据
+			res.send("201");
+			return;
+		}
+
+	});
+}
+
+
+
 //-------------404--------------
-exports.show404 = function(req, res) {
+exports.show404 = function (req, res) {
 	res.render("404")
 }
