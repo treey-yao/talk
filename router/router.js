@@ -510,7 +510,7 @@ exports.doPostcomment = function (req, res, next) {
 					return;
 				} else {
 					//修改成功
-					res.send("201");
+					res.send("200");
 					return;
 				}
 

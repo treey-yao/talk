@@ -168,13 +168,13 @@ $(function() {
 						'<img src="' + headimg(showinfo[i].img) + '" class="img-circle"/>' +
 						'</span>' +
 						'<span class="y-detail-text">' +
-						'<a class="y-detail-name">' + showinfo[i].name + '</a>' +
+						'<a class="y-detail-name" href="/user/'+ showinfo[i].name +'" >' + showinfo[i].name + '</a>' +
 						'<small class="y-detail-time">' + getDateDiff(showinfo[i].time) + '</small>' +
 						'</span>' +
 						'</div>' +
 						'<p class="y-detail-content">' + showinfo[i].content + '</p>' +
 						'<p>' +
-						'	<a class="btn btn-default" href="#" role="button" id="' + showinfo[i]._id + '">详情 &raquo;</a>' +
+						'<a class="btn btn-default" href="/post/'+ showinfo[i].ids +'" role="button" id="' + showinfo[i]._id + '">详情 &raquo;</a>' +
 						'</p>' +
 						'</div>'
 				}

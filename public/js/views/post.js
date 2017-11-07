@@ -23,7 +23,7 @@ $(function() {
 			console.log(yjpostcomment)
 			var commenttext = commentajax(yjpostcomment, ids);
 
-			if(commenttext == 100) {
+			if(commenttext == 110) {
 				showMessage("你的评论失败了！");
 			} else if(commenttext == 101) {
 				showMessage("你的评论被系统吞噬了！");
@@ -32,6 +32,8 @@ $(function() {
 				var showComment = showCommentajax(ids);
 				//显示 评论 
 				showC(showComment);
+				/* 清空评论 */
+				$yjpostcomment.val("");
 				showMessage("你的评论被系统认同！");
 			}
 		}
@@ -47,13 +49,13 @@ $(function() {
 			var htmls = "";
 			if(!(showinfo == "" || null)) {
 				for(var i = 0; i < showinfo.length; i++) {
-					htmls = htmls + '<div class="col-md-3 y-detail">' +
+					htmls = htmls + '<div class="col-md-12 y-detail clearfix">' +
 						'<div class="y-detail-box">' +
 						'<span class="y-detail-img ">' +
 						'<img src="' + headimg(showinfo[i].postimgname) + '" class="img-circle"/>' +
 						'</span>' +
 						'<span class="y-detail-text">' +
-						'<a class="y-detail-name">' + showinfo[i].postname + '</a>' +
+						'<a class="y-detail-name" href="/user/'+ showinfo[i].postname +'">' + showinfo[i].postname + '</a>' +
 						'<small class="y-detail-time">' + getDateDiff(showinfo[i].posttime) + '</small>' +
 						'</span>' +
 						'</div>' +
