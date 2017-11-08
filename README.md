@@ -3,8 +3,7 @@
 
 
 ## 运行方式
-
-``` bash
+``` 
 # open project
 cd talk
 
@@ -17,7 +16,7 @@ npm install
 
 # listening at localhost:8085
 
-
+``` 
 
 
 ## 开发计划
