@@ -1,3 +1,5 @@
+// import { connect } from "net";
+
 $(function() {
 	//	var $titletext = $("#yj-title-text");
 	var $contenttext = $("#yj-content-text");
@@ -46,6 +48,10 @@ $(function() {
 				//清空文本框
 				//$titletext.val("");
 				$contenttext.val("");
+
+				//显示说说
+				var showIndes = showTongueAjax(0);
+				showPost(showIndes);
 			}
 		}
 
@@ -153,6 +159,7 @@ $(function() {
 
 	//显示帖子
 	function showPost(showinfo) {
+		console.log(222222)
 		if(showinfo == 110) {
 			showMessage("嘿！系统错误！");
 		} else if(showinfo == 201) {

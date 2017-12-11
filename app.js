@@ -30,8 +30,6 @@ app.get("/doShowTongue", router.doShowTongue);
 app.post("/doTotal", router.doTotal);
 
 
-
-
 //-----------注册-------------
 app.get("/register", router.showRegister);
 //注册业务

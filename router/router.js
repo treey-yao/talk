@@ -33,7 +33,7 @@ exports.doPublish = function (req, res, next) {
 			"content": content,
 			"name": req.session.username,
 			"time": time,
-			"ids": fun.postids(),
+			"ids": fun.postids().toString(),
 		}, function (err, result) {
 			if (err) {
 				// 插入数据错误
@@ -56,7 +56,7 @@ exports.doShowTongue = function (req, res, next) {
 		"pageamount": 16,
 		"page": page,
 		"sort": {
-			"time": -1
+			"ids": -1
 		}
 	}, function (err, result) {
 		if (err) {
@@ -439,8 +439,12 @@ exports.doUserTotal = function (req, res, next) {
 
 //-----------评论-------------
 exports.showPost = function (req, res, next) {
+
+	// res.render("post");
+
 	//获取当前点击的用户名的id
 	var postid = req.params.postid;
+	console.log(postid)
 
 	//获取是否登录
 	if (req.session.login == 300) {
